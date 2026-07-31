@@ -1,0 +1,374 @@
+SudokuArray: changes log
+
+Version 6.0:
+• Project has been renamed to SudokuArray
+
+Version 5.6.6:
+• Android: the list of permissions and the checking method have been adjusted;
+• Adjusted the winning message;
+• Removed some extraneous menu elements
+
+Version 5.6.5:
+• Android: fixed the appearance of the logo on the app splash screen in newer Android versions;
+• Android: adjusted interface behavior when the screen is rotated in newer Android versions;
+• Android: fixed some inconvenient interface elements in newer Android versions
+
+Version 5.6.4:
+• Windows: applied the updated GitHub markup for version numbers;
+• Android: added the IOP version checker;
+• .NET support packages have been updated
+
+Version 5.6.3:
+• Internal assemblies have been updated;
+• Adjusted the winning notification
+
+Version 5.6.2:
+• Restored the congratulation message when stats window is disabled
+
+Version 5.6.1:
+• The presentation of game results has been simplified;
+• Added tip for free digits button;
+• Added the switch that allows you to skip the stats window when winning
+
+Version 5.6:
+• Upgraded the achievements set: all of them are now difficulty-dependent;
+• Removed support for old settings storages;
+• New results interface has been implemented;
+• .NET support packages have been updated
+
+Version 5.5.4:
+• Upgraded the update checking method;
+• Package format has been updated;
+• .NET support packages have been updated
+
+Version 5.5.3:
+• Offline help has been replaced with the PDF format
+
+Version 5.5.2:
+• Android: fixed the missing shadows under buttons (was hardly visible after the last update);
+• Android: the color scheme button now displays the selected style
+
+Version 5.5.1:
+• Internal assemblies have been updated
+
+Version 5.5:
+• Windows: app has been migrated to .NET 10;
+• Android: app has been targeted to API 36;
+• Internal assemblies have been updated
+
+Version 5.4.1:
+• Adjusted the interface behavior
+
+Version 5.4:
+• Added tip about digits available for the currently selected cell;
+• Removed badly implemented cell appearances;
+• Added confirmation for beginning of new game the the previous one hasn't been finished
+
+Version 5.3.5:
+• Implemented the ability to transfer scores between devices using encoded text line;
+• Added new interface color schemes;
+• Internal assemblies have been updated
+
+Version 5.3.2:
+• User videoguide has been updated;
+• App internal assemblies have been updated
+
+Version 5.3.1:
+• Android: adjusted the behavior of the main menu, some items have been rearranged
+
+Version 5.3:
+• Windows: implemented the stand-alone settings interface;
+• Added the ability to check the current state of the app (game status, scores tracking status)
+
+Version 5.2.6:
+• The project identity has been updated
+
+Version 5.2.5:
+• Windows: internal assemblies have been updated;
+• XPUN / IOP update has been applied
+
+Version 5.2.4:
+• You can now select the type of highlighting for affected cells: lines only or lines and squares;
+• NET support packages have been updated;
+• Android TV: removed some useless interface elements;
+• Android TV: hovering over the numbers field will now trigger the update of cells highlighting
+
+Version 5.2.1:
+• Android TV: removed extraneous cells clicks;
+• Android TV: removed extraneous buttons;
+• Android: user guide has been updated;
+• Android TV: help materials have been adapted for TV
+
+Version 5.2:
+• Android: added support for Android TV;
+• Windows: applied new subsystem for user messages
+
+Version 5.1.7:
+• Android: MAUI support packages have been updated;
+• Windows: internal assemblies have been updated
+
+Version 5.1.6:
+• Added support for achievements (Three or less checks, No mistakes)
+
+Version 5.1.1:
+• Android: MAUI support packages have been updated
+
+Version 5.1:
+• Added highlighting for cells affected by the selected one;
+• Added new color schemes, updated existing schemes;
+• Android: added the stand-alone settings page;
+• Android: added settings for KeepScreenOn state and for balloon / popup messages;
+• Android: app now properly supports the screen orientation
+
+Version 5.0.3:
+• Android: fix for MAUI interface defect that allows application to crash by pressing
+  system Back button on the main page. Applicable, therefore, only to the main page
+
+Version 5.0.2:
+• Fixed some bugs in settings storage
+
+Version 5.0:
+• App now can show the best solution time and the longest chain without checking;
+• The current unchecked solution will be discarded when exiting the app to avoid
+  locking invalid values as checked;
+• Windows: the application has been migrated to .NET 9.0 from .NET Framework 4.8.1
+
+Version 4.9.5:
+• Android: added the tip for the first start;
+• Android: added the text tip about the solution operation;
+• Android: fixed the inability to interrupt the solution;
+• Android: menu has been reordered to make the game mode more accessible;
+• Android: added color, food and dots appearances for numbers in cells;
+• Windows: added separate buttons to the main window for the game mode;
+• Renamed some ambiguous menu options;
+• Android: MAUI support packages have been updated
+
+Version 4.9:
+• Windows: previous changes have been adapted for the Windows version of the app;
+• Some code refactoring has been applied;
+• Added the penalty evaluation;
+• Added different appearances for digits in cells;
+• Android: sharing of results is now available in the menu
+
+Version 4.8:
+• Android: dark color scheme has been implemented;
+• Android: main menu divided into secondary options;
+• Android: some interface inconveniences have been fixed
+
+Version 4.7:
+• Android: implemented the score and results storage for the game mode;
+• Android: app now doesn't allow the device to go to sleep mode when game mode
+  is enabled
+
+Version 4.6:
+• Android: the app menu has been rebuilt to support the game mode;
+• Android: added the game mode, that changes the set of buttons on the main page;
+• Added the ability to check the solution without loading it to the page;
+• Windows: cells now support the mouse wheel and right mouse button when setting
+  their values;
+• Windows: new hotkeys have been added for file operations and solution checking
+
+Version 4.5:
+• Implemented the sudoku table generator: now you can use the tool as a game;
+• Increased the speed of solution method;
+• Applied some code refactoring and interface improvements
+
+Version 4.4:
+• Windows: app now remembers the last sudoku matrix on restart;
+• Windows: cell can be set to empty by clicking on it;
+• Implemented the Android version of the application
+
+Version 4.3.9:
+• Core assemblies have been updated
+
+Version 4.3.8:
+• Access and appearance of the Lab Policy have been updated
+
+Version 4.3.6:
+• The “App about” interface has been updated
+
+Version 4.3.5:
+• Current updates have been applied
+
+Version 4.3.4:
+• The new identity has been applied
+
+Version 4.3.3:
+• The “App about” interface has been updated
+
+Version 4.3.2:
+• XPUN update has been applied
+
+Version 4.3:
+• The search operation is properly abortable now;
+• The application has been retargeted to .NET Framework 4.8.1;
+• Access checking method has been completely rewritten: now it will properly detect problems
+  with file / registry input / output and help user with fixing them;
+• Added the special section in the user guide for access troubleshooting
+
+Version 4.2.1:
+• App now can save its window position
+
+Version 4.2:
+• Updated HypeHelp and Updates checker mechanics: this should fix apps freezing immediately
+  after launch (on some PCs)
+
+Version 4.1.5:
+• Updated the HypeHelp links list
+
+Version 4.1.4:
+• Update for XPUN has been applied
+
+Version 4.1.3:
+• Core updates have been applied
+
+Version 4.1:
+• The solution method has been incapsulated with the stand-alone thread (non-abortable for now);
+• Loading of the file will not start the solution method anymore;
+• Added a new version of offline help
+
+Version 4.0.13:
+• A stand-alone user guide is now available;
+• The offline quick help has been discontinued;
+• Completed the process of version control unification
+
+Version 4.0.11:
+• Updates and fixes have been applied to the update polling mechanism, as well as to other auxiliary functions
+
+Version 4.0.9:
+• New identity has been applied
+
+Version 4.0.8:
+• Cumulative updates applied
+
+Version 4.0.7:
+• Fixed some issues with the Policy loader where it would sometimes ask for multiple confirmations
+
+Version 4.0.5:
+• Implemented the access rights checker: it will test the availability of the Windows registry
+  and the application placement for writing and notify user about possible problems;
+• Updated the storage method of text tips
+
+Version 4.0.2:
+• Rewritten settings operator: it should fix problems with requiring administrator rights;
+• Updated the interface of message boxes
+
+Version 4.0:
+• Implemented the complete menu for the app interface;
+• Implemented the “loading from file” and “save to file” operations for sudoku tables
+
+Version 3.3.7:
+• Added UTF32 encoding;
+• The interface was adapted to Windows 10, incorrect window borders were fixed
+
+Version 3.3.5:
+• Updated the Policy window;
+• XPUN control now able to send user to the webpage with its description;
+• Cumulative updates have been applied
+
+Version 3.3.2:
+• App about form has been upgraded;
+• Links list for HypeHelp has been updated;
+• Fixed the updates downloader behavior in some rare conditions
+
+Version 3.3:
+• The text tips processing code has been refactored, some methods have been unified and simplified;
+• Removed some redundant code
+
+Version 3.2.7:
+• Updated the HypeHelp mechanics
+
+Version 3.2:
+• The app now uses a new, secure method for setting the size and position of windows;
+• Implemented support for HypeHelp mechanics;
+• App now allows you to select the language of the interface (using L key);
+• App will now warn user about the full reset
+
+Version 3.1:
+• Added the ability to set values by buttons pressing;
+• XPR control has been implemented;
+• Adjusted the control of single active copy
+
+Version 3.0:
+• Implemented the ability to open localized ADP, SCP and Welcome pages;
+• Required framework version updated from 4.0 to 4.8
+
+Version 2.5:
+• Parsing methods for ADP and projects descriptions have been upgraded;
+• Current updates and improvements applied
+
+Version 2.4.37:
+• Implemented the updates downloading directly from the “About the app” interface. This function
+  requires DPModule. It allows you to download DPModule if it was not previously installed
+
+Version 2.4.3:
+• Current updates and improvements applied
+
+Version 2.4:
+• App got the scalable icon and the digital signature (only self-signed for now);
+• Applied some updates for core assemblies
+
+Version 2.3.17:
+• Updated internal mechanism of checking for updates (applied compatibility with new GitHub theme)
+
+Version 2.3.15:
+• Added the registry access checker: it will show recommended actions for the executable file
+  when Windows doesn’t allow saving settings;
+• Applied new elements in user interface;
+• AboutForm and HardWorkExecutor universal classes have been upgraded and improved;
+• Update link for ADP;
+• Console version of the application has been removed from the deployment package
+
+Version 2.3.1:
+• Updated link and text presenter for ADP;
+• Applied fixed icons
+
+Version 2.3:
+• New identity applied;
+• New links to RD AAOW FDL added;
+• Added direct lab link
+
+Version 2.2.4:
+• Added ability to “ask developer” via E-mail for help, or send wish, advice or bug report
+
+Version 2.2.3:
+• Fixed bug in Policy acception interface that disallowed to accept it in offline mode at first start
+
+Version 2.2.2:
+• Added protection against multiple launch
+
+Version 2.2:
+• Cumulative changes applied
+
+Version 2.1.3i:
+• Application info interface now able to get last release’s changes log;
+• Found and fixed hidden bug that caused an error when starting the application from local network;
+• Fixed bug that caused the web page request method to fail if server disconnected
+
+Version 2.1.2p:
+• Added ability to accept/decline ADP at first start to the application info interface
+
+Version 2.1.1p:
+• Updated application info interface (more convenient font is used for now);
+• Added a button to access the Application development policy and EULA in the application info interface (due to ADP update);
+• Added automatic check for updates to the application info interface
+
+Version 2.1:
+• Keyboard description added to application quick help on [F1] key
+
+Version 2.0.1h:
+• New application info interface implemented;
+• Versions of both applications have been unified
+
+Version 2.0u:
+• Windows interface and C# adaptation released for the solution algorithm; stand-alone application in addition to console one has been developed (application manual added to the main page of project)
+
+Version 1.6u:
+• Application namespace, icon and development environment have been unified
+
+Version 1.5:
+• Final solution control added; if source table causes an evaluation error, user will be notified about it;
+• Some visual improvements have been implemented
+
+Version 1.4:
+• Publication on GitHub
