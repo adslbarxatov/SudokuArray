@@ -1,0 +1,2552 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+
+#if ANDROID
+	using Microsoft.Maui.Controls;
+	using Microsoft.Maui.Graphics;
+#else
+using System.ComponentModel;
+	using System.Drawing;
+	using System.Windows.Forms;
+#endif
+
+namespace RD_AAOW
+	{
+	/// <summary>
+	/// Возможные результаты инициализации
+	/// </summary>
+	public enum SolutionResults
+		{
+		/// <summary>
+		/// Экземпляр не инициализирован
+		/// </summary>
+		NotInited = 1,
+
+		/// <summary>
+		/// Поиск был прерван пользователем
+		/// </summary>
+		SearchAborted = 2,
+
+		/// <summary>
+		/// Матрица загружена и готова к решению
+		/// </summary>
+		ReadyForSearch = 3,
+
+		/// <summary>
+		/// Задача решена
+		/// </summary>
+		SolutionFound = 0,
+
+		/// <summary>
+		/// Исходная матрица некорректна
+		/// </summary>
+		InitialMatrixIsInvalid = -1,
+
+		/// <summary>
+		/// Исходная матрица содержит противоречие
+		/// </summary>
+		InitialMatrixIsUnsolvable = -2,
+
+		/// <summary>
+		/// Решение не найдено
+		/// </summary>
+		NoSolutionsFound = -3
+		}
+
+	/// <summary>
+	/// Возможные уровни сложности генерируемой матрицы
+	/// </summary>
+	public enum MatrixDifficulty
+		{
+		/// <summary>
+		/// Простой
+		/// </summary>
+		Easy = 0,
+
+		/// <summary>
+		/// Средний
+		/// </summary>
+		Medium = 1,
+
+		/// <summary>
+		/// Сложный
+		/// </summary>
+		Hard = 2,
+
+		/// <summary>
+		/// Игровой режим отключён
+		/// </summary>
+		None = 255,
+		}
+
+	/// <summary>
+	/// Возможные варианты проверки условий для элементов интерфейса
+	/// </summary>
+	public enum ConditionTypes
+		{
+		/// <summary>
+		/// Элемент содержит значение, полученное в результате решения
+		/// </summary>
+		ContainsFoundValue,
+
+		/// <summary>
+		/// Элемент не содержит значения
+		/// </summary>
+		IsEmpty,
+
+		/// <summary>
+		/// Элемент содержит новое введённое значение
+		/// </summary>
+		ContainsNewValue,
+
+		/// <summary>
+		/// Ячейка уже была выбрана ранее
+		/// </summary>
+		SelectedCell,
+
+		/// <summary>
+		/// Элемент содержит определённое ранее значение
+		/// </summary>
+		ContainsOldValue,
+
+		/// <summary>
+		/// Элемент содержит ошибочное значение
+		/// </summary>
+		ContainsErrorValue
+		}
+
+	/// <summary>
+	/// Возможные варинаты настройки элемента интерфейса
+	/// </summary>
+	public enum PropertyTypes
+		{
+		/// <summary>
+		/// Задать пустое значение
+		/// </summary>
+		EmptyValue = 0x0001,
+
+		/// <summary>
+		/// Задать цвет успешного решения задачи
+		/// </summary>
+		SuccessColor = 0x0010,
+
+		/// <summary>
+		/// Задать цвет ошибки
+		/// </summary>
+		ErrorColor = 0x0020,
+
+		/// <summary>
+		/// Задать цвет ранее известного значения
+		/// </summary>
+		OldColor = 0x0040,
+
+		/// <summary>
+		/// Задать цвет нового указанного значения
+		/// </summary>
+		NewColor = 0x0080,
+
+		/// <summary>
+		/// Маска изменения цвета текста
+		/// </summary>
+		TextColorMask = 0x00F0,
+
+		/// <summary>
+		/// Невыбранная ячейка
+		/// </summary>
+		DeselectedCell = 0x0100,
+
+		/// <summary>
+		/// Выбранная ячейка
+		/// </summary>
+		SelectedCell = 0x0200,
+
+		/// <summary>
+		/// Другая кнопка интерфейса
+		/// </summary>
+		OtherButton = 0x0800,
+
+		/// <summary>
+		/// Простреливаемые ячейки
+		/// </summary>
+		AffectedCell = 0x0400,
+
+		/// <summary>
+		/// Маска изменения цвета фона
+		/// </summary>
+		BackColorMask = 0x0F00
+		}
+
+	/// <summary>
+	/// Возможные варианты вознаграждения
+	/// </summary>
+	public enum ScoreTypes
+		{
+		/// <summary>
+		/// Текущий выигрыш
+		/// </summary>
+		RegularWinning,
+
+		/// <summary>
+		/// Штраф
+		/// </summary>
+		Penalty,
+
+		/// <summary>
+		/// Окончание игры
+		/// </summary>
+		GameCompletion
+		}
+
+	/*/// <summary>
+	/// Возможные варианты представления значений ячеек
+	/// </summary>
+	public enum CellsAppearances
+		{
+		/// <summary>
+		/// Цифры
+		/// </summary>
+		Digits,
+
+		/// <summary>
+		/// Латинские строчные буквы
+		/// </summary>
+		LatinLowercase,
+
+		/// <summary>
+		/// Кириллические строчные буквы
+		/// </summary>
+		CyrillicLowercase,
+
+		/// <summary>
+		/// Греческие строчные буквы
+		/// </summary>
+		GreekLowercase,
+
+		/// <summary>
+		/// Римские цифры
+		/// </summary>
+		RomanNumerals,
+
+		if ANDROID
+
+		/// <summary>
+		/// Точки
+		/// </summary>
+		Dots,
+
+		/// <summary>
+		/// Радуга
+		/// </summary>
+		Rainbow,
+
+		/// <summary>
+		/// Еда
+		/// </summary>
+		Food,
+
+		endif
+		};*/
+
+	/*/// <summary>
+	/// Возможные режимы работы программы
+	/// </summary>
+	public enum AppModes
+		{
+		/// <summary>
+		/// Только решение
+		/// </summary>
+		SolutionOnly,
+
+		/// <summary>
+		/// Игра
+		/// </summary>
+		Game
+		}*/
+
+	/*/// <summary>
+	/// Возможные цветовые схемы приложения
+	/// </summary>
+	public enum ColorSchemes
+		{
+		/// <summary>
+		/// Светлая серая
+		/// </summary>
+		LightGrey,
+
+		/// <summary>
+		/// Светлая жёлтая
+		/// </summary>
+		LightYellow,
+
+		/// <summary>
+		/// Светлая зелёная
+		/// </summary>
+		LightGreen,
+
+		/// <summary>
+		/// Светлая розовая
+		/// </summary>
+		LightPink,
+
+		/// <summary>
+		/// Светлая голубая
+		/// </summary>
+		LightBlue,
+
+		/// <summary>
+		/// Тёмная серая
+		/// </summary>
+		DarkGrey,
+
+		/// <summary>
+		/// Тёмная фиолетовая
+		/// </summary>
+		DarkPurple,
+		}*/
+
+	/// <summary>
+	/// Варианты подсветки затронутых ячеек
+	/// </summary>
+	public enum HighlightTypes
+		{
+		/// <summary>
+		/// Без подсветки
+		/// </summary>
+		None = 0,
+
+		/// <summary>
+		/// Только линии
+		/// </summary>
+		LinesOnly = 1,
+
+		/// <summary>
+		/// Линии и квадраты
+		/// </summary>
+		LinesAndSquares = 2
+		}
+
+	/// <summary>
+	/// Доступные типы счётчиков игры
+	/// </summary>
+	public enum StoredFields
+		{
+		/// <summary>
+		/// Общий счётчик очков
+		/// </summary>
+		TotalScore = 0,
+
+		/// <summary>
+		/// Число выигрышей на простой сложности
+		/// </summary>
+		WinsEasy = 1 + MatrixDifficulty.Easy,
+
+		/// <summary>
+		/// Число выигрышей на средней сложности
+		/// </summary>
+		WinsMedium = 1 + MatrixDifficulty.Medium,
+
+		/// <summary>
+		/// Число выигрышей на высокой сложности
+		/// </summary>
+		WinsHard = 1 + MatrixDifficulty.Hard,
+
+		/// <summary>
+		/// Незанятое поле, ранее использовавшееся для хранения неразделённого счётчика
+		/// ходов, выполненных подряд без проверок
+		/// </summary>
+		_Unused1_,
+
+		/// <summary>
+		/// Незанятое поле, ранее использовавшееся для хранения неразделённого счётчика
+		/// минимального времени решения задачи
+		/// </summary>
+		_Unused2_,
+
+		/// <summary>
+		/// Максимальное число ходов, выполненных подряд без проверок, на простой сложности
+		/// </summary>
+		ChainEasy = 6 + MatrixDifficulty.Easy,
+
+		/// <summary>
+		/// Максимальное число ходов, выполненных подряд без проверок, на средней сложности
+		/// </summary>
+		ChainMedium = 6 + MatrixDifficulty.Medium,
+
+		/// <summary>
+		/// Максимальное число ходов, выполненных подряд без проверок, на высокой сложности
+		/// </summary>
+		ChainHard = 6 + MatrixDifficulty.Hard,
+
+		/// <summary>
+		/// Минимальное время игры на простой сложности
+		/// </summary>
+		TimeEasy = 9 + MatrixDifficulty.Easy,
+
+		/// <summary>
+		/// Минимальное время игры на средней сложности
+		/// </summary>
+		TimeMedium = 9 + MatrixDifficulty.Medium,
+
+		/// <summary>
+		/// Минимальное время игры на высокой сложности
+		/// </summary>
+		TimeHard = 9 + MatrixDifficulty.Hard,
+
+		/// <summary>
+		/// Поле, ранее использовавшееся для хранения неразделённых достижений «не более трёх»
+		/// </summary>
+		OldAchi_ThreeOrLess = 12,
+
+		/// <summary>
+		/// Поле, ранее использовавшееся для хранения неразделённых достижений «без ошибок»
+		/// </summary>
+		OldAchi_NoMistakes = 13,
+
+		/// <summary>
+		/// Общее число проверок
+		/// </summary>
+		TotalChecks = 14,
+
+		/// <summary>
+		/// Общее число проверок с положительным результатом
+		/// </summary>
+		CorrectChecks = 15,
+
+		/// <summary>
+		/// Достижение «одна проверка или менее» на простой сложности
+		/// </summary>
+		Achi_OneOrLess_Easy = 16 + MatrixDifficulty.Easy,
+
+		/// <summary>
+		/// Достижение «три проверки или менее» на средней сложности
+		/// </summary>
+		Achi_ThreeOrLess_Medium = 16 + MatrixDifficulty.Medium,
+
+		/// <summary>
+		/// Достижение «пять проверок или менее» на высокой сложности
+		/// </summary>
+		Achi_FiveOrLess_Hard = 16 + MatrixDifficulty.Hard,
+
+		/// <summary>
+		/// Достижение «без ошибок» на простой сложности
+		/// </summary>
+		Achi_NoMistakes_Easy = 19 + MatrixDifficulty.Easy,
+
+		/// <summary>
+		/// Достижение «без ошибок» на средней сложности
+		/// </summary>
+		Achi_NoMistakes_Medium = 19 + MatrixDifficulty.Medium,
+
+		/// <summary>
+		/// Достижение «без ошибок» на высокой сложности
+		/// </summary>
+		Achi_NoMistakes_Hard = 19 + MatrixDifficulty.Hard,
+
+		/// <summary>
+		/// Достижение «одним ходом» на простой сложности
+		/// </summary>
+		Achi_OneMove_Easy = 22 + MatrixDifficulty.Easy,
+
+		/// <summary>
+		/// Достижение «одним ходом» на средней сложности
+		/// </summary>
+		Achi_OneMove_Medium = 22 + MatrixDifficulty.Medium,
+
+		/// <summary>
+		/// Достижение «одним ходом» на высокой сложности
+		/// </summary>
+		Achi_OneMove_Hard = 22 + MatrixDifficulty.Hard,
+
+		/// <summary>
+		/// Размер списка полей
+		/// </summary>
+		_Size_
+		}
+
+	/// <summary>
+	/// Класс описывает основной функционал поиска решения
+	/// </summary>
+	public static class SudokuArrayMath
+		{
+		//	Данная программа использует двоичную систему счисления в качестве
+		//	базового средства решения задачи. Т.е. если значения ячеек матрицы
+		//	представить	в двоичном виде, то номера бит, установленных в 1, будут
+		//	теми цифрами, которые в данный момент предполагается проставить в 
+		//	соответствующую клетку судоку.
+		//	Соответственно, если бит, равный 1, в значении ячейки остался лишь
+		//	один, клетка считается вычисленной. При	этом очевидно, что её
+		//	значение будет степенью числа 2. Определение этого состояния
+		//	является критерием решения задачи
+
+		#region Константы
+
+		/// <summary>
+		/// Размер стороны судоку
+		/// </summary>
+		public const UInt16 SideSize = 9;	// SquareSize ^ 2
+
+		/// <summary>
+		/// Полный размер судоку
+		/// </summary>
+		public const UInt16 FullSize = 81;	// SideSize ^ 2
+
+		/// <summary>
+		/// Размер стороны квадрата судоку
+		/// </summary>
+		public const UInt16 SquareSize = 3;	// SideSize ^ 0.5
+
+		// Полная флаговая переменная (123456789), используемая для решения
+		private const UInt16 SDS_FULL = ((1 << SideSize) - 1);
+
+		// Максимальное количество итераций, рассматриваемое как нормальный поиск
+		private const UInt16 MAX_ITER = 50;
+
+		// Признак незаполненной ячейки матрицы
+		private const string EmptySign = " ";
+
+		// Количество секунд, по истечении которого выполняется прерывание решения,
+		// если активен режим сброса слишком затянувшихся вычислений
+		private const uint dropSolutionLimit = 5;
+
+		// Ограничение поля Лучшее время (не более недели)
+		private const uint gameScore_TimeLimit = 60 * 60 * 24 * 7;
+
+		// Имена ключей, используемые для хранения настроек
+		/*if ANDROID
+		private const string replaceBalloonsPar = "ReplaceBalloons";
+		endif*/
+
+		private const string appModePar = "AppMode";
+		private const string sudokuFieldUPar = "SudokuFieldU";
+		private const string gameModePar = "GameMode";
+		/*private const string gameScoreUPar = "GameScoreU";*/
+		private const string colorSchemePar = "ColorScheme";
+		private const string cellsAppearancePar = "CellsAppearance";
+		private const string gameStartDatePar = "GameStartDate";
+		private const string showAffectedCellsPar = "ShowAffectedCells";
+		private const string showFreeDigitsFlagPar = "ShowFreeDigitsFlag";
+		private const string showStatsOnWinFlagPar = "ShowStatsOnWinFlag";
+
+		// Общие эмоджи
+
+		/// <summary>
+		/// Возвращает символ выигрыша
+		/// </summary>
+		public const string ScoreChar = " 💎";
+
+#if ANDROID
+
+		/// <summary>
+		/// Возвращает символ простого уровня игры
+		/// </summary>
+		public const string EasyPrefix = "🟢\t ";
+
+		/// <summary>
+		/// Возвращает символ среднего уровня игры
+		/// </summary>
+		public const string MediumPrefix = "🟡\t ";
+
+		/// <summary>
+		/// Возвращает символ сложного уровня игры
+		/// </summary>
+		public const string HardPrefix = "🔴\t ";
+
+		/// <summary>
+		/// Возвращает символ ошибочного решения
+		/// </summary>
+		public const string FailurePrefix = "❌ ";
+
+		/// <summary>
+		/// Возвращает символ корректного решения
+		/// </summary>
+		public const string SuccessPrefix = "✅ ";
+
+#endif
+
+		/// <summary>
+		/// Расширение файла обмена выигрышами
+		/// </summary>
+		public const string ExchangeFileExt = ".sap";
+
+		#endregion
+
+		#region Поля
+
+		// Главная расчётная матрица
+		private static UInt16[,] mtx = new UInt16[SideSize, SideSize];
+
+		// Результирующая матрица
+		private static Byte[,] resultMatrix;
+
+		// Поля, обеспечивающие разбор сохранённой статистики игры
+		private static uint[] gameScore;
+
+		/*// Разделитель полей в строке хранения выигрышей
+		private static char[] gameScoreSplitter = ['\t'];*/
+
+#if !ANDROID
+
+		// Оператор нагрузочных процессов
+		private static BackgroundWorker bw;
+
+#endif
+
+		// Флаг запроса прерывания вычислений
+		private static bool stopRequested = false;
+
+		// Флаг ограничения времени выполнения расчёта
+		private static bool dropLongSolutions = false;
+
+		// Временная метка начала вычисления
+		private static DateTime searchStart;
+
+		// Результат инициализации или решения
+		private static SolutionResults currentStatus = SolutionResults.NotInited;
+
+		// Цветовая схема
+		private static string[][] colorsNames = [
+			["Светлая серая", "Light grey"],
+			["Светлая жёлтая", "Light yellow"],
+			["Светлая зелёная", "Light green"],
+			["Светлая розовая", "Light pink"],
+			["Светлая голубая", "Light blue"],
+			["Тёмная серая", "Dark grey"],
+			["Тёмная фиолетовая", "Dark violet"],
+			];
+		private static byte[][][] colorsV4 = [
+			// Цвет новых ячеек
+			[ [0, 0, 255], [0, 0, 255], [0, 0, 255], [0, 0, 255], [0, 0, 255], [255, 255, 64], [255, 255, 64], ],
+
+			// Цвет ошибочных ячеек
+			[ [200, 0, 0], [200, 0, 0], [200, 0, 0], [200, 0, 0], [200, 0, 0], [255, 64, 64], [255, 64, 64], ],
+
+			// Цвет решённых ячеек
+			[ [0, 180, 0], [0, 180, 0], [0, 180, 0], [0, 180, 0], [0, 180, 0], [64, 255, 64], [64, 255, 64], ],
+
+			// Цвет имеющегося значения
+			[ [32, 32, 32], [32, 48, 32], [32, 48, 32], [32, 48, 32], [32, 48, 32], [196, 196, 196], [172, 160, 172], ],
+
+			// Цвет фона страницы или окна
+			[ [231, 231, 231], [255, 255, 231], [231, 255, 231], [255, 231, 255], [231, 255, 255], [28, 28, 28], [30, 28, 40], ],
+			
+			// Цвет обычных кнопок
+			[ [240, 240, 240], [255, 255, 222], [222, 255, 222], [255, 222, 255], [222, 255, 255], [34, 34, 34], [37, 34, 40], ],
+
+			// Цвет невыбранных ячеек
+			[ [208, 208, 208], [255, 255, 208], [232, 255, 208], [232, 208, 255], [208, 255, 255], [56, 56, 56], [56, 28, 56], ],
+
+			// Цвет выбранных ячеек
+			[ [156, 156, 156], [255, 220, 0], [240, 255, 0], [240, 90, 255], [0, 240, 255], [120, 120, 120], [112, 60, 112], ],
+
+			// Цвет простреливаемых ячеек
+			[ [184, 184, 184], [255, 255, 116], [200, 255, 116], [220, 156, 255], [116, 255, 255], [84, 84, 84], [80, 42, 80], ],
+			];
+
+		// Индекс текущей цветовой схемы
+		private static int colorIndex = 0;
+
+		// Файловые разделители
+		private static string[] fileSplitters = ["\r", "\n", "\t", " ", ";"];
+
+		// Уровень сложности генерируемой матрицы
+		private static MatrixDifficulty difficulty;
+
+		// Варианты представления значений в ячейках
+		private static List<List<string>> cellsApps = [
+			[ "1", "2", "3", "4", "5", "6", "7", "8", "9" ],
+			[ "a", "b", "c", "d", "e", "f", "g", "h", "i" ],
+			[ "а", "б", "в", "г", "д", "е", "ж", "з", "и" ],
+			[ "α", "β", "γ", "δ", "ε", "ζ", "η", "θ", "ι" ],
+#if ANDROID
+			[ "❤️", "🧡", "💛", "💚", "🩵", "💙", "💜", "🩷", "🤍" ],
+			[ "🍎", "🍊", "🍋", "🍏", "🧊", "🫐", "🍇", "🍗", "🥚" ],
+#endif
+			];
+		private static string[][] cellsAppsNames = [
+			[ "Цифры", "Digits" ],
+			[ "Латинские буквы", "Latin letters" ],
+			[ "Русские буквы", "Cyrillic letters" ],
+			[ "Греческие буквы", "Greek letters" ],
+#if ANDROID
+			[ "Радуга", "Rainbow" ],
+			[ "Еда", "Food" ],
+#endif
+			];
+
+#if ANDROID
+
+		private static double[] cellsAppsFontSizes = [
+			1.25,
+			1.25,
+			1.25,
+			1.25,
+			1.55,
+			1.55,
+			];
+
+#endif
+
+		// Индекс текущего представления значений в ячейках
+		private static int cellsAppIndex = 0;
+
+		// Счётчики успешных и ошибочных проверок
+		// (заглушены, чтобы не допускать сброса перезапуском приложения)
+		private static uint successfulChecks = 100;
+		private static uint failedChecks = 100;
+
+		// Текстовые представления полей для статистики игры
+		private static string[][] statsDescriptions = [
+			["Общий выигрыш: {0:S}", "Total score: {0:S}"],
+
+			["Завершённые игры:\r\n• простые – {0:S}\r\n• средние – {1:S}\r\n• сложные – {2:S}",
+			"Finished games:\r\n• easy – {0:S}\r\n• medium – {1:S}\r\n• hard – {2:S}"],
+
+			["Лучшее время:\r\n• простые – {0:S}\r\n• средние – {1:S}\r\n• сложные – {2:S}",
+			"Best time:\r\n• easy – {0:S}\r\n• medium – {1:S}\r\n• hard – {2:S}"],
+
+			["Длиннейшая цепочка без проверок:\r\n• простые – {0:S}\r\n• средние – {1:S}\r\n• сложные – {2:S}",
+			"Longest chain without checks:\r\n• easy – {0:S}\r\n• medium – {1:S}\r\n• hard – {2:S}"],
+
+			["Правильные предположения: {0:S}", "Successful checks: {0:S}"],
+
+			["Достижения\r\n\r\n• «Один или менее» – {0:S}\r\n• «Три или менее» – {1:S}\r\n• «Пять или менее» – {2:S}",
+			"Achievements\r\n\r\n• “One of less” – {0:S}\r\n• “Three of less” – {1:S}\r\n• “Five of less” – {2:S}"],
+
+			["• «Без ошибок / простая» – {0:S}\r\n• «Без ошибок / средняя» – {1:S}\r\n• «Без ошибок / сложная» – {2:S}",
+			"• “No mistakes / easy” – {0:S}\r\n• “No mistakes / medium” – {1:S}\r\n• “No mistakes / hard” – {2:S}"],
+
+			["• Старые «три или менее» – {0:S}\r\n• Старые «без ошибок» – {1:S}",
+			"• Old “three of less” – {0:S}\r\n• Old “no mistakes” – {1:S}"],
+
+			["• «За один ход / простая» – {0:S}\r\n• «За один ход / средняя» – {1:S}\r\n• «За один ход / сложная» – {2:S}",
+			"• “In one move / easy” – {0:S}\r\n• “In one move / medium” – {1:S}\r\n• “In one move / hard” – {2:S}"]
+			];
+
+		// Текстовые сообщения о достижениях
+		private static string[][] achiDescriptions = [
+			["🕐\r\nДостижение «один или менее»\r\n\r\nВыдаётся каждый раз, когда не более одной проверки сделано в лёгкой игре",
+			"🕐\r\n“One or less” achievement\r\n\r\nAppears every time when one or less checks done on easy game mode"],
+
+			["🕒\r\nДостижение «три или менее»\r\n\r\nВыдаётся каждый раз, когда не более трёх проверок сделано в средней игре",
+			"🕒\r\n“Three or less” achievement\r\n\r\nAppears every time when three or less checks done on medium game mode"],
+
+			["🕔\r\nДостижение «пять или менее»\r\n\r\nВыдаётся каждый раз, когда не более пяти проверок сделано в сложной игре",
+			"🕔\r\n“Five or less” achievement\r\n\r\nAppears every time when five or less checks done on hard game mode"],
+
+			["🙂\r\nДостижение «без ошибок / лёгкое»\r\n\r\nВыдаётся каждый раз, когда все проверки оказываются успешными в лёгкой игре",
+			"🙂\r\n“No mistakes / easy” achievement\r\n\r\nAppears every time when all checks are successful on easy game mode"],
+
+			["😀\r\nДостижение «без ошибок / среднее»\r\n\r\nВыдаётся каждый раз, когда все проверки оказываются успешными в средней игре",
+			"😀\r\n“No mistakes / medium” achievement\r\n\r\nAppears every time when all checks are successful on medium game mode"],
+
+			["😍\r\nДостижение «без ошибок / сложное»\r\n\r\nВыдаётся каждый раз, когда все проверки оказываются успешными в сложной игре",
+			"😍\r\n“No mistakes / hard” achievement\r\n\r\nAppears every time when all checks are successful on hard game mode"],
+
+			["🥉\r\nДостижение «за один ход / лёгкое»\r\n\r\nВыдаётся каждый раз, когда последняя проверка в лёгкой игре является единственной",
+			"🥉\r\n“In one move / easy” achievement\r\n\r\nAppears every time when the last check in an easy game is the only one"],
+
+			["🥈\r\nДостижение «за один ход / среднее»\r\n\r\nВыдаётся каждый раз, когда последняя проверка в средней игре является единственной",
+			"🥈\r\n“In one move / medium” achievement\r\n\r\nAppears every time when the last check in a medium game is the only one"],
+
+			["🥇\r\nДостижение «за один ход / сложное»\r\n\r\nВыдаётся каждый раз, когда последняя проверка в сложной игре является единственной",
+			"🥇\r\n“In one move / hard” achievement\r\n\r\nAppears every time when the last check in a hard game is the only one"]
+			];
+
+		// Примечания о доступных цифрах
+		private static string[][] freeDigitsDescriptions = [
+			["Ошибка в решении не позволяет заполнить эту ячейку",
+			"A mistake prevents this cell from being filled in"],
+
+			["Для этой ячейки подходит только одна цифра",
+			"Only one digit fits into this cell"],
+
+			["Для этой ячейки подходят: ",
+			"Digits for this cell: "],
+			];
+
+		#endregion
+
+		#region Свойства
+
+		/// <summary>
+		/// Возвращает текущий результат инициализации или решения задачи
+		/// </summary>
+		public static SolutionResults CurrentStatus
+			{
+			get
+				{
+				return currentStatus;
+				}
+			}
+
+		/// <summary>
+		/// Возвращает матрицу, полученную при решении задачи, или null, если решение не было найдено
+		/// </summary>
+		public static Byte[,] ResultMatrix
+			{
+			get
+				{
+				return resultMatrix;
+				}
+			}
+
+		// Внутреннее свойство, возвращающее число известных значений по уровню сложности
+		private static uint KnownValues
+			{
+			get
+				{
+				uint knownValues;
+				switch (difficulty)
+					{
+					case MatrixDifficulty.Hard:
+						knownValues = 24;
+						break;
+
+					case MatrixDifficulty.Medium:
+						knownValues = 30;
+						break;
+
+					case MatrixDifficulty.Easy:
+					default:
+						knownValues = 36;
+						break;
+					}
+
+				knownValues += (uint)RDGenerics.RND.Next (4);
+				return knownValues;
+				}
+			}
+
+		/// <summary>
+		/// Возвращает или задаёт вариант подсветки затронутых ячеек
+		/// </summary>
+		public static HighlightTypes HighlightType
+			{
+			get
+				{
+				return (HighlightTypes)RDGenerics.GetSettings (showAffectedCellsPar,
+					(uint)HighlightTypes.LinesOnly);
+				}
+			set
+				{
+				RDGenerics.SetSettings (showAffectedCellsPar, (uint)value);
+				}
+			}
+
+		/// <summary>
+		/// Возвращает или задаёт режим работы приложения
+		/// </summary>
+		public static /*AppModes AppMode*/ bool AppModeIsGame
+			{
+			get
+				{
+				/*return (AppModes)RDGenerics.GetSettings (appModePar, (uint)AppModes.Game);*/
+				return RDGenerics.GetSettings (appModePar, true);
+				}
+			set
+				{
+				RDGenerics.SetSettings (appModePar, /*(uint)*/value);
+				}
+			}
+
+		/// <summary>
+		/// Возвращает или задаёт флаг отображения подсказки о доступных цифрах
+		/// для выбранной ячейки
+		/// </summary>
+		public static bool ShowFreeDigitsFlag
+			{
+			get
+				{
+				return RDGenerics.GetSettings (showFreeDigitsFlagPar, false);
+				}
+			set
+				{
+				RDGenerics.SetSettings (showFreeDigitsFlagPar, value);
+				}
+			}
+
+		/// <summary>
+		/// Возвращает или задаёт флаг отображения статистики игры в случае выигрыша
+		/// </summary>
+		public static bool ShowStatsOnWinFlag
+			{
+			get
+				{
+				return RDGenerics.GetSettings (showStatsOnWinFlagPar, false);
+				}
+			set
+				{
+				RDGenerics.SetSettings (showStatsOnWinFlagPar, value);
+				}
+			}
+
+		/// <summary>
+		/// Возвращает или задаёт номер цветовой схемы приложения
+		/// в соответствии со списком имён цветовых схем
+		/// </summary>
+		public static /*ColorSchemes*/ uint ColorScheme
+			{
+			get
+				{
+				colorIndex = (int)RDGenerics.GetSettings (colorSchemePar, 1 /*(uint)ColorSchemes.LightYellow*/);
+				if (colorIndex > colorsNames.Length)
+					colorIndex = 0;
+				return /*(ColorSchemes)*/(uint)colorIndex;
+				}
+			set
+				{
+				colorIndex = (int)value;
+				RDGenerics.SetSettings (colorSchemePar, (uint)colorIndex);
+				}
+			}
+
+		/// <summary>
+		/// Возвращает или задаёт номер представления значений в ячейках
+		/// в соответствии со списком имён представлений
+		/// </summary>
+		public static /*CellsAppearances*/ uint CellsAppearance
+			{
+			get
+				{
+				cellsAppIndex = (int)RDGenerics.GetSettings (cellsAppearancePar, 0 /*(uint)CellsAppearances.Digits*/);
+				if (cellsAppIndex >= cellsApps.Count)
+					cellsAppIndex = 0;
+				return /*(CellsAppearances)*/(uint)cellsAppIndex;
+				}
+			set
+				{
+				cellsAppIndex = (int)value;
+				RDGenerics.SetSettings (cellsAppearancePar, (uint)cellsAppIndex);
+				}
+			}
+
+		/// <summary>
+		/// Возвращает или задаёт текущее состояние поля ввода в представлении «цифры».
+		/// Всегда возвращает строку длиной FullSize
+		/// </summary>
+		public static string SudokuField
+			{
+			get
+				{
+				// Защита верхних вызовов
+				string line = RDGenerics.GetSettings (sudokuFieldUPar, "");
+				if (!string.IsNullOrWhiteSpace (line))
+					line = DecodeLine (line);
+
+				if (line.Length == FullSize)
+					return line;
+
+				return EmptySign.PadLeft (FullSize, EmptySign[0]);
+				}
+			set
+				{
+				string line = EncodeLine (value);
+				RDGenerics.SetSettings (sudokuFieldUPar, line);
+				}
+			}
+
+		/// <summary>
+		/// Возвращает или задаёт последний использованный игровой режим
+		/// </summary>
+		public static MatrixDifficulty GameMode
+			{
+			get
+				{
+				return (MatrixDifficulty)RDGenerics.GetSettings (gameModePar,
+					(uint)MatrixDifficulty.None);
+				}
+			set
+				{
+				RDGenerics.SetSettings (gameModePar, (uint)value);
+				}
+			}
+
+		/// <summary>
+		/// Возвращает цвет фона страницы или окна для текущей цветовой схемы
+		/// </summary>
+		public static Color BackgroundColor
+			{
+			get
+				{
+				_ = ColorScheme;	// Загрузка значения
+				return BytesToColor (colorsV4[4][colorIndex]);
+				}
+			}
+
+		private static Color BytesToColor (byte[] Bytes)
+			{
+#if ANDROID
+			uint v = ((uint)Bytes[0] << 16) | ((uint)Bytes[1] << 8) | (uint)Bytes[2];
+			return Color.FromArgb ("#" + v.ToString ("X6"));
+#else
+			return Color.FromArgb (Bytes[0], Bytes[1], Bytes[2]);
+#endif
+			}
+
+		/// <summary>
+		/// Возвращает названия цветовых схем для текущего языка интерфейса
+		/// </summary>
+		public static string[] ColorSchemesNames
+			{
+			get
+				{
+				int idx = (int)RDLocale.CurrentLanguage;
+				List<string> res = [];
+
+				for (int i = 0; i < colorsNames.Length; i++)
+					res.Add (colorsNames[i][idx]);
+				return res.ToArray ();
+				}
+			}
+
+		/// <summary>
+		/// Возвращает названия представлений ячеек для текущего языка интерфейса
+		/// </summary>
+		public static string[] CellsAppearancesNames
+			{
+			get
+				{
+				int idx = (int)RDLocale.CurrentLanguage;
+				List<string> res = [];
+
+				for (int i = 0; i < cellsAppsNames.Length; i++)
+					res.Add (cellsAppsNames[i][idx]);
+				return res.ToArray ();
+				}
+			}
+
+
+#if ANDROID
+
+		/// <summary>
+		/// Возвращает множитель размера шрифта для текущего представления значений в ячейках
+		/// </summary>
+		public static double CellsAppearancesFontSize
+			{
+			get
+				{
+				_ = CellsAppearance;	// Загрузка значения
+				return cellsAppsFontSizes[cellsAppIndex] * RDInterface.MasterFontSize;
+				}
+			}
+
+		/// <summary>
+		/// Возвращает флаг жирного начертания для текущего представления значений в ячейках
+		/// </summary>
+		public static bool CellsAppearancesBoldFont
+			{
+			get
+				{
+				_ = CellsAppearance;
+				return (cellsAppsFontSizes[cellsAppIndex] < 1.5);
+				}
+			}
+
+#endif
+
+		// Возвращает или задаёт временной штамп начала игры
+		private static DateTime GameStartDate
+			{
+			get
+				{
+				string date = RDGenerics.GetSettings (gameStartDatePar, "");
+				try
+					{
+					return DateTime.Parse (date, RDLocale.GetCulture (RDLanguages.en_us));
+					}
+				catch
+					{
+					return new DateTime (2025, 1, 1, 0, 0, 0);
+					}
+				}
+			set
+				{
+				RDGenerics.SetSettings (gameStartDatePar,
+					value.ToString (RDLocale.GetCulture (RDLanguages.en_us)));
+				}
+			}
+
+		/// <summary>
+		/// Возвращает примечание к последней возвращённой последовательности цифр,
+		/// доступных для указания в выбранной ячейке
+		/// </summary>
+		public static string LastFreeDigitsDescription
+			{
+			get
+				{
+				return lastFreeDigitsDescription;
+				}
+			}
+		private static string lastFreeDigitsDescription = "";
+
+		#endregion
+
+		#region Вспомогательные методы
+
+		// Определение чисел, являющихся степенью числа 2
+		//
+		// Если аргумент является степенью числа 2, функция возвращает true
+		// (иначе - false)
+		//
+		private static bool IsPowOf2 (UInt16 Value)
+			{
+			// Защита
+			if (Value == 0)
+				return false;
+
+			// Приведение к нечётной позиции
+			uint v = Value;
+			while (v % 2 == 0)
+				v = v >> 1;
+
+			// Нечётный бит должен быть единственным
+			return (v == 1);
+			}
+
+		// Проверка на ошибочность предположения (повторения цифр)
+		//
+		// Возвращает:	true, если ошибки были найдены (есть дублирующиеся цифры);
+		//				false, если ошибок нет
+		//
+		private static bool HasErrors ()
+			{
+			UInt16 s;
+
+			// Горизонтальные линии
+			for (UInt16 i = 0; i < SideSize; i++)
+				{
+				for (UInt16 j = s = 0; j < SideSize; j++)
+					{
+					// Чтобы определить, были ли повторы, создаётся переменная s, в
+					// которую заносятся уже встреченные биты вычисленных ячеек.
+					// Если ячейка обозначена как вычисленная (is_pow_2 == 1), но
+					// операция дизъюнкции этой ячейки с s не изменяет s, значит,
+					// эта цифра уже есть в строке, что означает наличие ошибки
+					if (IsPowOf2 (mtx[i, j]) && ((s | mtx[i, j]) == s))
+						return true;
+
+					if (IsPowOf2 (mtx[i, j]))
+						s |= mtx[i, j]; // Добавляет бит в s, если он получен из вычисленной ячейки
+					}
+				}
+
+			// Вертикальные линии
+			for (UInt16 j = 0; j < SideSize; j++)
+				{
+				for (UInt16 i = s = 0; i < SideSize; i++)
+					{
+					if (IsPowOf2 (mtx[i, j]) && ((s | mtx[i, j]) == s))
+						return true;
+
+					if (IsPowOf2 (mtx[i, j]))
+						s |= mtx[i, j];
+					}
+				}
+
+			// Квадраты
+			for (UInt16 i = 0; i < SideSize; i++)
+				{
+				for (UInt16 j = s = 0; j < SideSize; j++)
+					{
+					// Пересчитываемые параметры, позволяющие использовать линейные коэффициенты для зигзагообразного движения
+					UInt16 SQI = (UInt16)(j % SquareSize + (i % SquareSize) * SquareSize);
+					UInt16 SQJ = (UInt16)(j / SquareSize + (i / SquareSize) * SquareSize);
+
+					if (IsPowOf2 (mtx[SQI, SQJ]) && ((s | mtx[SQI, SQJ]) == s))
+						return true;
+
+					if (IsPowOf2 (mtx[SQI, SQJ]))
+						s |= mtx[SQI, SQJ];
+					}
+				}
+
+			// Ошибок нет
+			return false;
+			}
+
+		// Проверка матрицы на готовность в качестве конечного результата
+		//
+		// Возвращает true, если матрица получила законченный вид (нет «вилок»)
+		//
+		private static bool Finished ()
+			{
+			bool s = true;
+
+			// Конечный результат считается полученным тогда, когда все
+			// клетки вычислены, т.е. все их значения являются степенями
+			// числа 2. Соответственно, переменная s не должна изменить
+			// своего значения после всех конъюнкций
+			for (UInt16 i = 0; i < SideSize; i++)
+				{
+				for (UInt16 j = 0; j < SideSize; j++)
+					{
+					s &= IsPowOf2 (mtx[i, j]);
+
+					if (!s)
+						return s;   // Быстрый выход
+					}
+				}
+
+			return s;
+			}
+
+		// Пересчёт матрицы
+		//
+		// Возвращает:	1, если получен конечный результат;
+		//				-1, если обнаружена ошибка в вычислениях;
+		//				0, если простой прогонкой получить результат не удаётся
+		//
+		private static Int16 UpdateMatrix ()
+			{
+			UInt16 p, iterations = 0;
+
+			while (!Finished () && (iterations < MAX_ITER))
+				{
+				// Счётчик итераций для определения момента завершения процесса
+				iterations++;
+
+				// Горизонтальные линии
+				for (UInt16 i = 0; i < SideSize; i++)
+					{
+					// Здесь происходит удаление бит, неудовлетворяющих условиям задачи.
+					// Для этого в числе p, заданном изначально значением 0x1FF,
+					// «выкалываются» биты, уже встречающиеся в данной строке (далее -
+					// столбце и квадрате). Причём, для этого используются только
+					// вычисленные ячейки (is_pow_2 == true)
+					// Затем полученное число конкатенируется с каждой ячейкой, где
+					// вычисление ещё не было завершено (is_pow_2 == false)
+					p = SDS_FULL;
+
+					for (UInt16 j = 0; j < SideSize; j++)
+						{
+						if (IsPowOf2 (mtx[i, j]))
+							p &= (UInt16)(~mtx[i, j]);  // Mij = 010000000; p = 111111111; [&=~] = 101111111
+						}
+
+					for (UInt16 j = 0; j < SideSize; j++)
+						{
+						if (!IsPowOf2 (mtx[i, j]))
+							mtx[i, j] &= p;     // Mij = 010010001; p = 101111111; Mij' = 000010001
+						}
+					}
+
+				// Вертикальные линии
+				for (UInt16 j = 0; j < SideSize; j++)
+					{
+					p = SDS_FULL;
+
+					for (UInt16 i = 0; i < SideSize; i++)
+						{
+						if (IsPowOf2 (mtx[i, j]))
+							p &= (UInt16)(~mtx[i, j]);
+						}
+
+					for (UInt16 i = 0; i < SideSize; i++)
+						{
+						if (!IsPowOf2 (mtx[i, j]))
+							mtx[i, j] &= p;
+						}
+					}
+
+				// Квадраты
+				for (UInt16 i = 0; i < SideSize; i++)
+					{
+					p = SDS_FULL;
+
+					for (UInt16 j = 0; j < SideSize; j++)
+						{
+						UInt16 SQI = (UInt16)(j % SquareSize + (i % SquareSize) * SquareSize);
+						UInt16 SQJ = (UInt16)(j / SquareSize + (i / SquareSize) * SquareSize);
+
+						if (IsPowOf2 (mtx[SQI, SQJ]))
+							p &= (UInt16)(~mtx[SQI, SQJ]);
+						}
+
+					for (UInt16 j = 0; j < SideSize; j++)
+						{
+						UInt16 SQI = (UInt16)(j % SquareSize + (i % SquareSize) * SquareSize);
+						UInt16 SQJ = (UInt16)(j / SquareSize + (i / SquareSize) * SquareSize);
+
+						if (!IsPowOf2 (mtx[SQI, SQJ]))
+							mtx[SQI, SQJ] &= p;
+						}
+					}
+				}
+
+			// Прогонка дала ошибочный результат (имеются повторяющиеся значения)
+			if (HasErrors ())
+				return -1;
+
+			// Прогонка дала конечный результат
+			else if (iterations < MAX_ITER)
+				return 1;
+
+			// Прогонка прервана по превышению количества итераций
+			else
+				return 0;
+			}
+
+#if ANDROID
+
+		/// <summary>
+		/// Метод взводит флаг досрочного завершения операции
+		/// </summary>
+		public static void RequestStop ()
+			{
+			stopRequested = true;
+			}
+
+#else
+
+		// Метод переносит флаг досрочного прерывания из оператора задачи в свойство stopRequested
+		private static void CheckBW ()
+			{
+			if (bw.CancellationPending)
+				stopRequested = true;
+			}
+
+#endif
+
+		// Метод взводит или отключает пропуск решений, занимающих слишком много времени
+		private static void SetDroppingLongSolutions (bool Enable)
+			{
+			dropLongSolutions = Enable;
+			if (dropLongSolutions)
+				searchStart = DateTime.Now;
+			}
+
+		// Функция изучения предположений
+		//
+		// Рекурсивная функция
+		// Возвращает:	0, если результат получен
+		//				-1, если ответ не был найден
+		//				1, если поиск был отменён
+		private static short Search ()
+			{
+			// Защита (запрос прерывания)
+#if !ANDROID
+			CheckBW ();
+#endif
+
+			if (stopRequested || dropLongSolutions &&
+				((DateTime.Now - searchStart).Seconds >= dropSolutionLimit))
+				{
+				stopRequested = false;
+				return 1;
+				}
+
+			// Создание копии исходной матрицы для данного предположения
+			UInt16[,] mtc = (UInt16[,])mtx.Clone ();
+
+			// Поиск первой невычисленной ячейки
+			UInt16 i = 0, j = 0;
+			for (i = 0; i < SideSize; i++)
+				{
+				for (j = 0; j < SideSize; j++)
+					{
+					if (!IsPowOf2 (mtx[i, j]))
+						goto m1;
+					}
+				}
+
+			// Решение уже найдено
+			return 0;
+
+			m1:
+			for (UInt16 k = 0; k < SideSize; k++)
+				{
+				UInt16 v = (UInt16)(1 << k);
+				if ((mtx[i, j] & v) == 0)   // Пропускать заведомо недопустимые значения
+					continue;
+				mtx[i, j] = v;
+
+				// Прогонка матрицы с данным предположением
+				// (копия матрицы с каждым вызовом функции является вынужденной мерой, т.к.
+				// каждая прогонка почти полностью переписывает исходную матрицу)
+				switch (UpdateMatrix ())
+					{
+					// Если получен конечный результат, функция его возвращает
+					case 1:
+						return 0;
+
+					// Если результат требует уточнения
+					case 0:
+						// Делается новое предположение
+						short res = Search ();
+						switch (res)
+							{
+							// Если оно дало конечный результат, нужно вернуть его наверх
+							case 0:
+
+							// Если поиск отменён, нужно прервать всё дерево вызовов
+							case 1:
+								return res;
+
+							// Если нет, нужно восстановить матрицу
+							default:
+								mtx = (UInt16[,])mtc.Clone ();
+								break;
+							}
+						break;
+
+					// Если получена ошибка при прогонке, нужно восстановить матрицу
+					default:
+						mtx = (UInt16[,])mtc.Clone ();
+						break;
+					}
+				}
+
+			// Правильных вариантов не найдено
+			return -1;
+			}
+
+		// Метод выгружает полученную матрицу в результат
+		private static void UploadResultMatrix ()
+			{
+			resultMatrix = new Byte[SideSize, SideSize];
+			for (UInt16 i = 0; i < SideSize; i++)
+				{
+				for (UInt16 j = 0; j < SideSize; j++)
+					if (IsPowOf2 (mtx[i, j]))
+						resultMatrix[i, j] = (Byte)(Math.Log (mtx[i, j], 2) + 1);
+					else
+						resultMatrix[i, j] = 0;
+				}
+			}
+
+#if !ANDROID
+
+		// Образец метода, выполняющего длительные вычисления
+		private static void DoSearch (object sender, DoWorkEventArgs e)
+			{
+			bw = (BackgroundWorker)sender;
+
+			switch (Search ())
+				{
+				case -1:
+					e.Result = (int)SolutionResults.NoSolutionsFound;
+					return;
+
+				case 1:
+					e.Result = (int)SolutionResults.SearchAborted;
+					return;
+				}
+
+			e.Result = (int)SolutionResults.SolutionFound;
+			}
+
+#endif
+
+		// Метод выполняет заполнение матрицы неконфликтующими значениями.
+		// Полученная матрица может не иметь решения, несмотря на первичный контроль
+		private static bool FillMatrix ()
+			{
+			// Заполнение всех возможных вероятностей
+			List<int> cells = [];
+			for (UInt16 i = 0; i < SideSize; i++)
+				{
+				for (UInt16 j = 0; j < SideSize; j++)
+					{
+					mtx[i, j] = SDS_FULL;
+					cells.Add (i * SideSize + j);
+					}
+				}
+			UInt16[,] mtc = (UInt16[,])mtx.Clone ();    // Чистая копия, не содержащая прогонов
+
+			// Заполнение
+			for (int k = 0; k < KnownValues; k++)
+				{
+				// Выбор заполняемой ячейки
+				int idx = RDGenerics.RND.Next (cells.Count);
+				int cell = cells[idx];
+				cells.RemoveAt (idx);
+
+				// Выбор значения для ячейки
+				int i = cell / SideSize;
+				int j = cell % SideSize;
+				uint value = mtx[i, j];
+				if (value == 0) // Такого не должно быть, но почему-то бывает
+					return false;
+
+				List<uint> digits = [];
+				for (int b = 0; b < SideSize; b++)
+					if ((value & (1 << b)) != 0)
+						digits.Add ((uint)b + 1);
+
+				value = digits[RDGenerics.RND.Next (digits.Count)];
+				mtx[i, j] = (UInt16)(1 << ((int)value - 1));
+				mtc[i, j] = mtx[i, j];
+
+				// Допускать только матрицы, решаемые прогонами
+				int res = UpdateMatrix ();
+				if (res < 0)
+					return false;
+				}
+
+			// Пока что успешно. Подмена просчитанной матрицы чистой копией
+			mtx = (UInt16[,])mtc.Clone ();
+			return true;
+			}
+
+		// Методы сохранения и загрузки статистики игрового режима
+		private static string SFName (int Number)
+			{
+			return "SF" + Number.ToString ("D2");
+			}
+
+		private static uint GetGameScore (StoredFields Item)
+			{
+			// Если значения ещё не были загружены
+			if (gameScore == null)
+				{
+				// Инициализация
+				gameScore = new uint[(int)StoredFields._Size_];
+				for (int i = 0; i < gameScore.Length; i++)
+					{
+					switch ((StoredFields)i)
+						{
+						case StoredFields.TimeEasy:
+						case StoredFields.TimeMedium:
+						case StoredFields.TimeHard:
+							// Чем меньше, тем лучше
+							gameScore[i] = uint.MaxValue;
+							break;
+
+						default:
+							// Наоборот
+							gameScore[i] = 0;
+							break;
+						}
+					}
+
+				// Извлечение по старой схеме и проверка наличия обновлённой схемы
+				bool scoresV6 = !string.IsNullOrWhiteSpace (RDGenerics.GetSettings (SFName (0), ""));
+				List<string> valuesNew = [];
+
+				/*if (!string.IsNullOrWhiteSpace (line))*/
+				if (!scoresV6)
+					{
+					// Старая схема
+					string line = RDGenerics.GetSettings (/*gameScoreUPar*/ "GameScoreU", "");
+					line = DecodeLine (line);
+
+					/*string[] values = line.Split (['\t'], StringSplitOptions.RemoveEmptyEntries);
+					if (values.Length < 4)
+					// Строка повреждена или незаполнена – немедленный возврат значения по умолчанию
+					return gameScore[(int)Item];*/
+					valuesNew.AddRange (line.Split (['\t'], StringSplitOptions.RemoveEmptyEntries));
+
+					// Пересохранение
+					for (int i = 0; i < valuesNew.Count; i++)
+						{
+						string sf = SFName (i);
+						RDGenerics.SetSettings (sf, EncodeLine (sf + valuesNew[i]));
+						}
+					}
+				else
+					{
+					// Новая схема
+					for (int i = 0; i < gameScore.Length; i++)
+						{
+						string sf = SFName (i);
+						string sc = DecodeLine (RDGenerics.GetSettings (sf, ""));
+
+						// Защита
+						if (sc.StartsWith (sf))
+							valuesNew.Add (sc.Substring (sf.Length));
+						else
+							valuesNew.Add ("");
+						}
+					}
+
+				// Поля 4 и 5 (unused1 и unused2) забракованы ошибочной версией 5.0.0.0, не используются
+				for (int i = 0; i < gameScore.Length; i++)
+					{
+					uint v;
+					try
+						{
+						/*gameScore[i] = uint.Parse (valuesNew[i]);*/
+						v = uint.Parse (valuesNew[i]);
+						}
+					catch
+						{
+						/*switch ((StoredFields)i)
+							{
+							case StoredFields.TimeEasy:
+							case StoredFields.TimeMedium:
+							case StoredFields.TimeHard:
+								// Чем меньше, тем лучше
+								gameScore[i] = uint.MaxValue;
+								break;
+
+							default:
+								// Наоборот
+								gameScore[i] = 0;
+								break;
+							}*/
+						continue;
+						}
+
+					gameScore[i] = v;
+					}
+
+				// Успешно
+				}
+
+			return gameScore[(int)Item];
+			}
+
+		private static void SetGameScore (StoredFields Item, uint Value)
+			{
+			int idx = (int)Item;
+
+			gameScore[idx] = Value;
+			/*string line = "";
+			string sp = gameScoreSplitter[0].ToString ();
+
+			for (int i = 0; i < gameScore.Length - 1; i++)
+				line += (gameScore[i].ToString () + sp);
+			line += gameScore[gameScore.Length - 1].ToString ();
+
+			line = EncodeLine (line);
+			RDGenerics.SetSettings (gameScoreUPar, line);*/
+
+			string sf = SFName (idx);
+			RDGenerics.SetSettings (sf, EncodeLine (sf + Value.ToString ()));
+			}
+
+		/// <summary>
+		/// Метод получает размер текущего выигрыша по указанному количеству найденных ячеек
+		/// </summary>
+		/// <param name="Value">Количество найденных ячеек</param>
+		/// <returns>Возвращает количество очков или 0, если игровой режим неактивен</returns>
+		public static uint GetScore (uint Value)
+			{
+			return GetScore (ScoreTypes.RegularWinning, Value);
+			}
+
+		/// <summary>
+		/// Метод получает размер выигрыша по указанному типу расчёта.
+		/// В случае победы в игре также обновляет счётчик побед
+		/// </summary>
+		/// <param name="ScoreType">Тип рассчитываемого выигрыша</param>
+		/// <returns>Возвращает количество очков или 0, если игровой режим неактивен,
+		/// или выбран режим RegularScore (для него существует отдельная перегрузка)</returns>
+		public static uint GetScore (ScoreTypes ScoreType)
+			{
+			return GetScore (ScoreType, 0);
+			}
+
+		// Метод рассчитывает выигрыш по типу расчёта и количеству найденных ячеек
+		private static uint GetScore (ScoreTypes ScoreType, uint Value)
+			{
+			// Контроль
+			if (GameMode == MatrixDifficulty.None)
+				return 0;
+
+			// Инициализация
+			byte baseOffset = (byte)GameMode;
+			uint multiplier = (uint)(baseOffset + 1);
+			uint v;
+			StoredFields item;
+
+			switch (ScoreType)
+				{
+				// Обычный выигрыш
+				case ScoreTypes.RegularWinning:
+				default:
+					item = (StoredFields)((byte)StoredFields.ChainEasy + baseOffset);
+					v = GetGameScore (item);
+					if (Value > v)
+						SetGameScore (item, Value);
+
+					v = GetGameScore (StoredFields.TotalChecks);
+					SetGameScore (StoredFields.TotalChecks, v + 1);
+					v = GetGameScore (StoredFields.CorrectChecks);
+					SetGameScore (StoredFields.CorrectChecks, v + 1);
+
+					return multiplier * Value * Value;
+
+				// Штраф
+				case ScoreTypes.Penalty:
+					v = GetGameScore (StoredFields.TotalChecks);
+					SetGameScore (StoredFields.TotalChecks, v + 1);
+
+					return 10 * (4 - multiplier);
+
+				// Победа
+				case ScoreTypes.GameCompletion:
+					// Количество выигранных игр
+					item = (StoredFields)((byte)StoredFields.WinsEasy + baseOffset);
+					v = GetGameScore (item);
+					SetGameScore (item, v + 1);
+
+					// Лучшее время
+					item = (StoredFields)((byte)StoredFields.TimeEasy + baseOffset);
+					v = GetGameScore (item);
+
+					double seconds = (DateTime.Now - GameStartDate).TotalSeconds;
+					if ((seconds <= gameScore_TimeLimit) && (seconds < v))
+						SetGameScore (item, (uint)seconds);
+
+					// Проверка достижений
+					for (StoredFields i = StoredFields.Achi_OneOrLess_Easy; i <= StoredFields.Achi_OneMove_Hard; i++)
+						{
+						if (CheckAchievement (i))
+							{
+							v = GetGameScore (i);
+							SetGameScore (i, v + 1);
+							}
+						}
+
+					return 1000 * multiplier;
+				}
+			}
+
+		/// <summary>
+		/// Метод обновляет суммарный выигрыш
+		/// </summary>
+		/// <param name="Penalty">Режим штрафа</param>
+		/// <param name="Value">Величина выигрыша или штрафа</param>
+		public static void UpdateGameScore (bool Penalty, uint Value)
+			{
+			// Загрузка значения
+			uint v = GetGameScore (StoredFields.TotalScore);
+
+			// Обновление
+			if (Penalty)
+				{
+				if (v > Value)
+					v -= Value;
+				else
+					v = 0;
+
+				failedChecks++;
+				}
+			else
+				{
+				v += Value;
+
+				successfulChecks++;
+				}
+
+			// Запись значения
+			SetGameScore (StoredFields.TotalScore, v);
+			}
+
+		/// <summary>
+		/// Метод проверяет наличие факта достижения по его номеру
+		/// </summary>
+		/// <param name="AchiNumber">Номер достижения</param>
+		/// <returns>Возвращает false, если достижение не выполнено, или номер указан некорректно</returns>
+		public static bool CheckAchievement (StoredFields AchiNumber)
+			{
+			switch (AchiNumber)
+				{
+				// Один / три / пять или менее
+				case StoredFields.Achi_OneOrLess_Easy:
+					return (difficulty == MatrixDifficulty.Easy) && (successfulChecks + failedChecks <= 1);
+
+				case StoredFields.Achi_ThreeOrLess_Medium:
+					return (difficulty == MatrixDifficulty.Medium) && (successfulChecks + failedChecks <= 3);
+
+				case StoredFields.Achi_FiveOrLess_Hard:
+					return (difficulty == MatrixDifficulty.Hard) && (successfulChecks + failedChecks <= 5);
+
+				// Без ошибок
+				case StoredFields.Achi_NoMistakes_Easy:
+					return (difficulty == MatrixDifficulty.Easy) && (failedChecks == 0);
+
+				case StoredFields.Achi_NoMistakes_Medium:
+					return (difficulty == MatrixDifficulty.Medium) && (failedChecks == 0);
+
+				case StoredFields.Achi_NoMistakes_Hard:
+					return (difficulty == MatrixDifficulty.Hard) && (failedChecks == 0);
+
+				// За один ход
+				case StoredFields.Achi_OneMove_Easy:
+					return (difficulty == MatrixDifficulty.Easy) && (successfulChecks + failedChecks < 1);
+
+				case StoredFields.Achi_OneMove_Medium:
+					return (difficulty == MatrixDifficulty.Medium) && (successfulChecks + failedChecks < 1);
+
+				case StoredFields.Achi_OneMove_Hard:
+					return (difficulty == MatrixDifficulty.Hard) && (successfulChecks + failedChecks < 1);
+
+				// Старые достижения (не обновляются – только отображение)
+				case StoredFields.OldAchi_NoMistakes:
+				case StoredFields.OldAchi_ThreeOrLess:
+					return false;
+				}
+
+			return false;
+			}
+
+		/// <summary>
+		/// Метод получает описание достижения по его номеру
+		/// </summary>
+		/// <param name="AchiNumber">Номер достижения</param>
+		/// <returns>Возвращает пустую строку, если номер указан некорректно</returns>
+		public static string GetAchievementDescription (StoredFields AchiNumber)
+			{
+			byte lng = (byte)RDLocale.CurrentLanguage;
+			int offset = (int)AchiNumber - (int)StoredFields.Achi_OneOrLess_Easy;
+
+			switch (AchiNumber)
+				{
+				case StoredFields.Achi_OneOrLess_Easy:
+				case StoredFields.Achi_ThreeOrLess_Medium:
+				case StoredFields.Achi_FiveOrLess_Hard:
+				case StoredFields.Achi_NoMistakes_Easy:
+				case StoredFields.Achi_NoMistakes_Medium:
+				case StoredFields.Achi_NoMistakes_Hard:
+				case StoredFields.Achi_OneMove_Easy:
+				case StoredFields.Achi_OneMove_Medium:
+				case StoredFields.Achi_OneMove_Hard:
+					return achiDescriptions[offset][lng];
+				}
+
+			return "";
+			}
+
+		#endregion
+
+		/// <summary>
+		/// Метод инициализирует матрицу и готовит класс к выполнению решения
+		/// </summary>
+		/// <param name="SourceMatrix">Исходная таблица чисел; должна иметь высоту и ширину, равные 9;
+		/// из значений извлекаются только младшие разряды; нулевые значения рассматриваются как те, 
+		/// которые нужно найти</param>
+		public static SolutionResults InitializeSolution (Byte[,] SourceMatrix)
+			{
+			// Контроль
+			if ((SourceMatrix == null) || (SourceMatrix.GetLength (0) != SideSize) ||
+				(SourceMatrix.GetLength (1) != SideSize))
+				{
+				currentStatus = SolutionResults.InitialMatrixIsInvalid;
+				return currentStatus;
+				}
+
+			// Инициализация
+			for (UInt16 i = 0; i < SideSize; i++)
+				{
+				for (UInt16 j = 0; j < SideSize; j++)
+					{
+					Byte digit = (Byte)(SourceMatrix[i, j] % 10);
+					if (digit != 0)
+						mtx[i, j] = (UInt16)(1 << (digit - 1));
+					else
+						mtx[i, j] = SDS_FULL;
+					}
+				}
+
+			///////////////////////////////////////////////////////////////////////////
+			// Подготовка матрицы
+			//		Здесь выполняется первый прогон матрицы, предполагающий удаление
+			//		из клеток с заданным значением 0x1FF лишних бит. Для этого
+			//		проверяются вертикальные и горизонтальные линии, а также квадраты.
+			//		Если эта процедура вызывает ошибку в вычислениях, значит, исходные
+			//		данные неверны
+			if (UpdateMatrix () == -1)
+				{
+				currentStatus = SolutionResults.InitialMatrixIsUnsolvable;
+				return currentStatus;
+				}
+
+			// Готово к решению
+			currentStatus = SolutionResults.ReadyForSearch;
+			return currentStatus;
+			}
+
+#if ANDROID
+
+		/// <summary>
+		/// Метод выполняет поиск решения для ранее инициализированной матрицы
+		/// </summary>
+		/// <returns>Возвращает результат поиска или статус NotInited, если не была выполнена инициализация</returns>
+		public static bool FindSolution ()
+			{
+			// Контроль
+			if (currentStatus != SolutionResults.ReadyForSearch)
+				{
+				currentStatus = SolutionResults.NotInited;
+				return false;
+				}
+
+			// Метод предположений
+			SetDroppingLongSolutions (false);
+			switch (Search ())
+				{
+				case -1:
+					currentStatus = SolutionResults.NoSolutionsFound;
+					return false;
+
+				case 1:
+					currentStatus = SolutionResults.SearchAborted;
+					return false;
+				}
+
+			// Успешно. Возврат результата
+			UploadResultMatrix ();
+			currentStatus = SolutionResults.SolutionFound;
+			return true;
+			}
+
+#else
+
+		/// <summary>
+		/// Метод выполняет поиск решения для ранее инициализированной матрицы
+		/// </summary>
+		/// <returns>Возвращает результат поиска или статус NotInited, если не была выполнена инициализация</returns>
+		public static SolutionResults FindSolution ()
+			{
+			// Контроль
+			if (currentStatus != SolutionResults.ReadyForSearch)
+				{
+				currentStatus = SolutionResults.NotInited;
+				return currentStatus;
+				}
+
+			///////////////////////////////////////////////////////////////////////////
+			// Метод предположений
+			//		Эта процедура начинает выполнять рекурсивные подстановки в
+			//		невычисляемые простой прогонкой клетки, т.е., выполнив
+			//		предположение о значении какой-то клетки (первой по порядку из
+			//		невычисленных), она делает прогонку. Если она не даёт решения,
+			//		функция вызывает саму себя, чтобы сделать ещё одно предположение,
+			//		и т.д.
+			//		Если предположение неверно, функция, обнаружившая это, завершает
+			//		работу, давая возможность вызвавшему её экземпляру сделать
+			//		другое предположение
+			SetDroppingLongSolutions (false);
+			RDInterface.RunWork (DoSearch, null, RDLocale.GetText ("DoingSearch"),
+				RDRunWorkFlags.CaptionInTheMiddle | RDRunWorkFlags.AllowOperationAbort);
+			SolutionResults res = (SolutionResults)RDInterface.WorkResultAsInteger;
+
+			switch (res)
+				{
+				case SolutionResults.NoSolutionsFound:
+				case SolutionResults.SearchAborted:
+					currentStatus = res;
+					return currentStatus;
+				}
+
+			// Успешно. Возврат результата
+			UploadResultMatrix ();
+			currentStatus = SolutionResults.SolutionFound;
+			return currentStatus;
+			}
+
+#endif
+
+		/// <summary>
+		/// Метод извлекает матрицу из содержимого файла и возвращает её, если это возможно,
+		/// в виде сплошной строки длиной FullSize
+		/// </summary>
+		/// <param name="FileContents">Содержимое текстового файла</param>
+		public static string ParseMatrixFromFile (string FileContents)
+			{
+			// Обработка
+			if (string.IsNullOrWhiteSpace (FileContents))
+				return "";
+			string data = FileContents;
+
+			for (int i = 0; i < fileSplitters.Length; i++)
+				data = data.Replace (fileSplitters[i], "");
+
+			if (data.Length < FullSize)
+				return "";
+
+			// Загрузка
+			string resultLine = "";
+			for (int i = 0; i < FullSize; i++)
+				{
+				string c = data[i].ToString ();
+				if (cellsApps[0].Contains (c))
+					resultLine += c;
+				else
+					resultLine += EmptySign;
+				}
+
+			return resultLine;
+			}
+
+		/// <summary>
+		/// Метод оформляет матрицу для сохранения в файл
+		/// </summary>
+		/// <param name="Line">Сплошная строка значений матрицы</param>
+		public static string BuildMatrixToSave (string Line)
+			{
+			string file = "";
+
+			for (int i = 1; i <= Line.Length; i++)
+				{
+				file += Line[i - 1].ToString ().Replace (EmptySign, "-");
+
+				if ((i % (SquareSize * SideSize)) == 0)
+					file += RDLocale.RNRN;
+				else if ((i % SideSize) == 0)
+					file += RDLocale.RN;
+				else if ((i % SquareSize) == 0)
+					file += " ";
+				}
+
+			return file;
+			}
+
+		/// <summary>
+		/// Метод устанавливает сложность для метода генерации матриц судоку
+		/// </summary>
+		/// <param name="Difficulty">Требуемый уровень сложности</param>
+		public static void SetGenerationDifficulty (MatrixDifficulty Difficulty)
+			{
+			difficulty = Difficulty;
+			GameStartDate = DateTime.Now;
+
+			successfulChecks = 0;
+			failedChecks = 0;
+			}
+
+#if ANDROID
+
+		/// <summary>
+		/// Метод формирует матрицу судоку с указанным уровнем сложности
+		/// </summary>
+		public static bool GenerateMatrix ()
+			{
+			// Поиск решаемой матрицы
+			bool solved = false;
+			UInt16[,] mtc = (UInt16[,])mtx.Clone ();
+
+			while (!solved)
+				{
+				// Генерация потенциально решаемой матрицы
+				solved = true;
+				while (!FillMatrix ())
+					;
+
+				// Поиск решения для полученной матрицы
+				mtc = (UInt16[,])mtx.Clone ();
+
+				// Слишком долгие решения игнорируются
+				SetDroppingLongSolutions (true);
+
+				// Любая проблема рассматривается как дефект матрицы и требует повторной генерации
+				switch (Search ())
+					{
+					case -1:
+						currentStatus = SolutionResults.NoSolutionsFound;
+						solved = false;
+						break;
+
+					case 1:
+						currentStatus = SolutionResults.SearchAborted;
+						solved = false;
+						break;
+					}
+				}
+
+			// Успешно. Возврат результата
+			mtx = (UInt16[,])mtc.Clone ();
+			UploadResultMatrix ();
+			currentStatus = SolutionResults.SolutionFound;
+			return true;
+			}
+
+#else
+
+		/// <summary>
+		/// Метод формирует матрицу судоку с указанным уровнем сложности
+		/// </summary>
+		public static void GenerateMatrix ()
+			{
+			// Поиск решаемой матрицы
+			bool solved = false;
+			UInt16[,] mtc = (UInt16[,])mtx.Clone ();
+
+			while (!solved)
+				{
+				// Генерация потенциально решаемой матрицы
+				solved = true;
+				while (!FillMatrix ())
+					;
+
+				// Поиск решения для полученной матрицы
+				mtc = (UInt16[,])mtx.Clone ();
+
+				// Слишком долгие решения игнорируются
+				SetDroppingLongSolutions (true);
+				RDInterface.RunWork (DoSearch, null, RDLocale.GetText ("DoingSearch"),
+					RDRunWorkFlags.CaptionInTheMiddle);
+				SolutionResults res = (SolutionResults)RDInterface.WorkResultAsInteger;
+
+				// Любая проблема рассматривается как дефект матрицы и требует повторной генерации
+				switch (res)
+					{
+					case SolutionResults.NoSolutionsFound:
+					case SolutionResults.SearchAborted:
+						solved = false;
+						break;
+					}
+				}
+
+			// Успешно. Возврат результата
+			mtx = (UInt16[,])mtc.Clone ();
+			UploadResultMatrix ();
+			currentStatus = SolutionResults.SolutionFound;
+			}
+
+#endif
+
+		/// <summary>
+		/// Метод проверяет указанное условие на истинность
+		/// </summary>
+		/// <param name="InterfaceElement">Элемент интерфейса, для которого выполняется контроль</param>
+		/// <param name="Condition">Проверяемое условие</param>
+		public static bool CheckCondition (Button InterfaceElement, ConditionTypes Condition)
+			{
+			PropertyTypes prop = GetPropertyType (InterfaceElement);
+			switch (Condition)
+				{
+				case ConditionTypes.ContainsFoundValue:
+					return prop.HasFlag (PropertyTypes.SuccessColor);
+
+				case ConditionTypes.ContainsNewValue:
+					return prop.HasFlag (PropertyTypes.NewColor);
+
+				case ConditionTypes.IsEmpty:
+					return (InterfaceElement.Text == EmptySign);
+
+				case ConditionTypes.SelectedCell:
+					return prop.HasFlag (PropertyTypes.SelectedCell);
+
+				case ConditionTypes.ContainsOldValue:
+					return prop.HasFlag (PropertyTypes.OldColor);
+
+				case ConditionTypes.ContainsErrorValue:
+					return prop.HasFlag (PropertyTypes.ErrorColor);
+				}
+
+			// Неприменимое условие
+			return false;
+			}
+
+		/// <summary>
+		/// Метод настраивает указанный параметр элемента интерфейса
+		/// </summary>
+		/// <param name="InterfaceElement">Элемент интерфейса, для которого выполняется настройка</param>
+		/// <param name="Property">Проверяемое условие</param>
+		public static void SetProperty (Button InterfaceElement, PropertyTypes Property)
+			{
+			// Проверка условия
+			_ = ColorScheme;    // Загрузка значения
+			byte[] color = colorsV4[3][colorIndex];
+
+			PropertyTypes prop = GetPropertyType (InterfaceElement);
+			switch (Property)
+				{
+				case PropertyTypes.EmptyValue:
+					InterfaceElement.Text = EmptySign;
+					break;
+
+				case PropertyTypes.SuccessColor:
+					color = colorsV4[2][colorIndex];
+					break;
+
+				case PropertyTypes.ErrorColor:
+					color = colorsV4[1][colorIndex];
+					break;
+
+				case PropertyTypes.NewColor:
+					color = colorsV4[0][colorIndex];
+					break;
+
+				case PropertyTypes.OldColor:
+					break;
+
+				case PropertyTypes.DeselectedCell:
+					color = colorsV4[6][colorIndex];
+					break;
+
+				case PropertyTypes.SelectedCell:
+					color = colorsV4[7][colorIndex];
+					break;
+
+				case PropertyTypes.OtherButton:
+					color = colorsV4[5][colorIndex];
+					break;
+
+				case PropertyTypes.AffectedCell:
+					color = colorsV4[8][colorIndex];
+					break;
+				}
+
+			if ((Property & PropertyTypes.TextColorMask) != 0)
+				{
+#if ANDROID
+				InterfaceElement.TextColor = BytesToColor (color);
+#else
+				InterfaceElement.ForeColor = BytesToColor (color);
+#endif
+				prop &= ~PropertyTypes.TextColorMask;
+				prop |= Property;
+				}
+
+			else if ((Property & PropertyTypes.BackColorMask) != 0)
+				{
+#if ANDROID
+				InterfaceElement.BackgroundColor = BytesToColor (color);
+#else
+				InterfaceElement.BackColor = BytesToColor (color);
+#endif
+				prop &= ~PropertyTypes.BackColorMask;
+				prop |= Property;
+				}
+
+			SetPropertyType (InterfaceElement, prop);
+			}
+
+		private static PropertyTypes GetPropertyType (Button InterfaceElement)
+			{
+#if ANDROID
+			if (!string.IsNullOrWhiteSpace (InterfaceElement.ClassId))
+				return (PropertyTypes)int.Parse (InterfaceElement.ClassId);
+
+#else
+			if (InterfaceElement.Tag != null)
+				return (PropertyTypes)InterfaceElement.Tag;
+#endif
+
+			return 0;
+			}
+
+		private static void SetPropertyType (Button InterfaceElement, PropertyTypes Value)
+			{
+#if ANDROID
+			InterfaceElement.ClassId = ((int)Value).ToString ();
+#else
+			InterfaceElement.Tag = (int)Value;
+#endif
+			}
+
+		/// <summary>
+		/// Метод возвращает представление ячейки в текущей настройке
+		/// </summary>
+		/// <param name="Value">Цифра, для которой требуется представление (1 – 9)</param>
+		/// <returns>Возвращает представление или EmptySign, если переданная цифра некорректна
+		/// или является представлением пустой ячейки</returns>
+		public static string GetAppearance (Byte Value)
+			{
+			// Контроль
+			if ((Value < 1) || (Value > SideSize))
+				return EmptySign;
+
+			// Результат
+			_ = CellsAppearance;
+			return cellsApps[cellsAppIndex][Value - 1];
+			}
+
+		/// <summary>
+		/// Метод возвращает представление ячейки в текущей настройке
+		/// </summary>
+		/// <param name="Value">Цифра, для которой требуется представление (1 – 9)</param>
+		/// <returns>Возвращает представление или EmptySign, если переданная цифра некорректна
+		/// или является представлением пустой ячейки</returns>
+		public static string GetAppearance (string Value)
+			{
+			// Контроль
+			int idx = cellsApps[0].IndexOf (Value);
+			if (idx < 0)
+				return EmptySign;
+
+			// Результат
+			_ = CellsAppearance;
+			return cellsApps[cellsAppIndex][idx];
+			}
+
+		/// <summary>
+		/// Возвращает цифру по её представлению
+		/// </summary>
+		/// <param name="Appearance">Представление цифры в любой настройке</param>
+		/// <returns>Возвращает цифру или 0, если указанное представление не определено</returns>
+		public static Byte GetDigit (string Appearance)
+			{
+			_ = CellsAppearance;
+			int idx = cellsApps[cellsAppIndex].IndexOf (Appearance);
+			if (idx < 0)
+				return 0;
+
+			return (Byte)(idx + 1);
+			}
+
+		/// <summary>
+		/// Метод определяет, влияет ли ячейка TestCell на значение SelectedCell
+		/// </summary>
+		/// <param name="SelectedCellIndex">Выбранная ячейка (индекс от 0 до 80 включительно)</param>
+		/// <param name="TestCellIndex">Проверяемая ячейка (индекс от 0 до 80 включительно)</param>
+		/// <param name="SquaresToo">Флаг определяет, подсвечиваются ли вдобавок к линиям
+		/// квадраты, которые затронуты выбранной ячейкой</param>
+		/// <returns>Возвращает true, если влияние подтверждается</returns>
+		public static bool IsCellAffected (uint SelectedCellIndex, uint TestCellIndex, bool SquaresToo)
+			{
+			// Если совпадают столбцы
+			if ((SelectedCellIndex % SideSize) == (TestCellIndex % SideSize))
+				return true;
+
+			// Если совпадают строки
+			if ((SelectedCellIndex / SideSize) == (TestCellIndex / SideSize))
+				return true;
+
+			// Если совпадают квадраты
+			if (!SquaresToo)
+				return false;
+
+			if ((SelectedCellIndex / (SquareSize * SideSize)) == (TestCellIndex / (SquareSize * SideSize)) &&
+				(SelectedCellIndex / SquareSize) % SquareSize == (TestCellIndex / SquareSize) % SquareSize)
+				return true;
+
+			return false;
+			}
+
+		// Загрузка и сохранение параметров в защищённом виде
+		private static string EncodeLine (string SourceLine)
+			{
+			byte[] data = RDGenerics.GetEncoding (RDEncodings.Unicode16).GetBytes ("SU535" + SourceLine);
+			for (int i = 0; i < data.Length; i++)
+				data[i] = (byte)(data[i] ^ (((i + 4) * 3) % 0xFF));
+			return Convert.ToBase64String (data, Base64FormattingOptions.None);
+			}
+
+		private static string DecodeLine (string SourceLine)
+			{
+			byte[] data;
+			try
+				{
+				data = Convert.FromBase64String (SourceLine);
+				}
+			catch
+				{
+				return "";
+				}
+
+			for (int i = 0; i < data.Length; i++)
+				data[i] = (byte)(data[i] ^ (((i + 4) * 3) % 0xFF));
+			string line = RDGenerics.GetEncoding (RDEncodings.Unicode16).GetString (data);
+
+			if (line.StartsWith ("SU535"))
+				return line.Substring (5);
+			return "";
+			}
+
+		/*/// <summary>
+		/// Метод возвращает строку, пригодную для обмена сохранёнными выигрышами
+		/// и достижениями между клиентами
+		/// </summary>
+		public static string GetPortableScoresLine ()
+			{
+			return RDGenerics.GetSettings (gameScoreUPar, "");
+			}
+
+		/// <summary>
+		/// Метод загружает строку, пригодную для обмена сохранёнными выигрышами
+		/// и достижениями между клиентами
+		/// </summary>
+		public static bool SetPortableScoresLine (string ScoresLine)
+			{
+			if (string.IsNullOrWhiteSpace (DecodeLine (ScoresLine)))
+				return false;
+
+			RDGenerics.SetSettings (gameScoreUPar, ScoresLine);
+			gameScore = null;
+			return true;
+			}*/
+
+		/// <summary>
+		/// Метод формирует файл профиля пользователя для сохранения
+		/// </summary>
+		/// <returns>Возвращает true в случае успеха</returns>
+		public static string BuildExchangeFile ()
+			{
+			string res = ((UInt16)RDFormatSignatures.SAPActual).ToString () + RDLocale.RN;
+
+			for (int i = 0; i < (int)StoredFields._Size_; i++)
+				res += RDGenerics.GetSettings (SFName (i), "") + RDLocale.RN;
+
+			return res;
+			}
+
+		/// <summary>
+		/// Метод загружает файл профиля пользователя
+		/// </summary>
+		/// <returns>Возвращает true в случае успеха</returns>
+		public static bool ParseExchangeFile (string FileData)
+			{
+			// Контроль версии
+			StringReader SR = new StringReader (FileData);
+			RDFormatSignatures version;
+			try
+				{
+				version = (RDFormatSignatures)UInt16.Parse (SR.ReadLine ());
+				}
+			catch
+				{
+				SR.Close ();
+				return false;
+				}
+
+			switch (version)
+				{
+				case RDFormatSignatures.SAPv1:
+					break;
+
+				default:
+					SR.Close ();
+					return false;
+				}
+
+			// Загрузка (замена сохранённых настроек)
+			for (int i = 0; i < (int)StoredFields._Size_; i++)
+				{
+				string s = SR.ReadLine ();
+				if (s == null)
+					continue;
+
+				RDGenerics.SetSettings (SFName (i), s);
+				}
+
+			// Инициирование перезагрузки значений
+			gameScore = null;
+			return true;
+			}
+
+		/// <summary>
+		/// Метод возвращает перечень цифр, доступных для выбранной ячейки, согласно
+		/// указанному списку недоступных цифр
+		/// </summary>
+		/// <param name="OccupiedDigits">Список недоступных цифр</param>
+		public static string GetFreeDigitsForCell (string OccupiedDigits)
+			{
+			string res = "";
+			int len = 0;
+			string descr = "";
+
+			for (int i = 0; i < cellsApps[cellsAppIndex].Count; i++)
+				{
+				if (!OccupiedDigits.Contains (cellsApps[cellsAppIndex][i]))
+					{
+					res += cellsApps[cellsAppIndex][i];
+					descr += (cellsApps[cellsAppIndex][i] + ", ");
+					len++;
+
+#if ANDROID
+					if (((len == 3) || (len == 6)) && !res.EndsWith ('\n'))
+						res += "\n";
+#endif
+					}
+				}
+
+			byte lng = (byte)RDLocale.CurrentLanguage;
+			switch (len)
+				{
+				case 0:
+					lastFreeDigitsDescription = freeDigitsDescriptions[0][lng];
+					return "!!!";
+
+				case 1:
+					lastFreeDigitsDescription = freeDigitsDescriptions[1][lng];
+					return "–";
+
+				default:
+#if ANDROID
+					if (res.EndsWith ('\n'))
+						res = res.Substring (0, res.Length - 1);
+#endif
+					if (descr.EndsWith (", "))
+						descr = descr.Substring (0, descr.Length - 2);
+					lastFreeDigitsDescription = freeDigitsDescriptions[2][lng] + descr;
+
+					return res;
+				}
+			}
+
+		/// <summary>
+		/// Возвращает два раздела статистики:
+		///  0. Выигрыши;
+		///  1. Достижения
+		/// </summary>
+		public static string[] GetStatsValues ()
+			{
+			// 0
+			List<string> values = [];
+			values.Add (GetGameScore (StoredFields.TotalScore).ToString ("#,#0") + ScoreChar);
+
+			// 1 – 3
+			for (StoredFields i = StoredFields.WinsEasy; i <= StoredFields.WinsHard; i++)
+				values.Add (GetGameScore (i).ToString ());
+
+			// 4 – 6
+			for (StoredFields i = StoredFields.TimeEasy; i <= StoredFields.TimeHard; i++)
+				{
+				uint bestTime = GetGameScore (i);
+				bool showTime = (bestTime <= gameScore_TimeLimit);
+
+				if (!showTime)
+					{
+					values.Add ("—");
+					continue;
+					}
+
+				string s = (bestTime % 60).ToString ("D2");
+				bestTime /= 60;
+				string m = (bestTime % 60).ToString ("D2");
+				bestTime /= 60;
+				string h = bestTime.ToString ();
+				values.Add (h + ":" + m + ":" + s);
+				}
+
+			// 7 – 9
+			for (StoredFields i = StoredFields.ChainEasy; i <= StoredFields.ChainHard; i++)
+				values.Add (GetGameScore (i).ToString ());
+
+			// 10
+			float accuracy = 100.0f * (float)GetGameScore (StoredFields.CorrectChecks);
+			accuracy /= (float)GetGameScore (StoredFields.TotalChecks);
+			values.Add (float.IsNaN (accuracy) ? "—" : accuracy.ToString ("#0.0") + "%");
+
+			// 11 – 13
+			for (StoredFields i = StoredFields.Achi_OneOrLess_Easy; i <= StoredFields.Achi_FiveOrLess_Hard; i++)
+				values.Add (GetGameScore (i).ToString ());
+
+			// 14 – 16
+			for (StoredFields i = StoredFields.Achi_NoMistakes_Easy; i <= StoredFields.Achi_NoMistakes_Hard; i++)
+				values.Add (GetGameScore (i).ToString ());
+
+			// 17, 18
+			values.Add (GetGameScore (StoredFields.OldAchi_ThreeOrLess).ToString ());
+			values.Add (GetGameScore (StoredFields.OldAchi_NoMistakes).ToString ());
+
+			// 19 – 21
+			for (StoredFields i = StoredFields.Achi_OneMove_Easy; i <= StoredFields.Achi_OneMove_Hard; i++)
+				values.Add (GetGameScore (i).ToString ());
+
+			// Сборка
+			string[] res = ["", ""];
+			byte lng = (byte)RDLocale.CurrentLanguage;
+
+			res[0] = string.Format (statsDescriptions[0][lng], values[0]);
+			res[0] += RDLocale.RNRN + string.Format (statsDescriptions[1][lng], values[1], values[2], values[3]);
+			res[0] += RDLocale.RNRN + string.Format (statsDescriptions[2][lng], values[4], values[5], values[6]);
+			res[0] += RDLocale.RNRN + string.Format (statsDescriptions[3][lng], values[7], values[8], values[9]);
+			res[0] += RDLocale.RNRN + string.Format (statsDescriptions[4][lng], values[10]);
+
+			res[1] = string.Format (statsDescriptions[5][lng], values[11], values[12], values[13]);
+			res[1] += RDLocale.RNRN + string.Format (statsDescriptions[6][lng], values[14], values[15], values[16]);
+			res[1] += RDLocale.RNRN + string.Format (statsDescriptions[8][lng], values[19], values[20], values[21]);
+			res[1] += RDLocale.RNRN + string.Format (statsDescriptions[7][lng], values[17], values[18]);
+
+			values.Clear ();
+			return res;
+			}
+		}
+	}

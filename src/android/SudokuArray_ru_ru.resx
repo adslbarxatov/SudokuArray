@@ -1,0 +1,322 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CellsAppearanceLabel" xml:space="preserve">
+    <value>Представление ячеек</value>
+  </data>
+  <data name="CheckSolutionButton" xml:space="preserve">
+    <value>Проверить решение</value>
+  </data>
+  <data name="ColorSchemeLabel" xml:space="preserve">
+    <value>Цветовая схема</value>
+  </data>
+  <data name="Difficulty0" xml:space="preserve">
+    <value>Простая</value>
+  </data>
+  <data name="Difficulty1" xml:space="preserve">
+    <value>Средняя</value>
+  </data>
+  <data name="Difficulty2" xml:space="preserve">
+    <value>Сложная</value>
+  </data>
+  <data name="DifficultyLevel" xml:space="preserve">
+    <value>Уровень сложности:</value>
+  </data>
+  <data name="EmptyButton" xml:space="preserve">
+    <value>(пусто)</value>
+  </data>
+  <data name="GenerateMatrix" xml:space="preserve">
+    <value>Начать новую игру</value>
+  </data>
+  <data name="InputLabel" xml:space="preserve">
+    <value>Значения в таблице:</value>
+  </data>
+  <data name="KeyboardButton" xml:space="preserve">
+    <value>Клавиатура</value>
+  </data>
+  <data name="LoadFromFile" xml:space="preserve">
+    <value>Загрузить из файла</value>
+  </data>
+  <data name="Menu0" xml:space="preserve">
+    <value>Таблица</value>
+  </data>
+  <data name="Menu1" xml:space="preserve">
+    <value>Игра</value>
+  </data>
+  <data name="Menu2" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="MenuButton" xml:space="preserve">
+    <value>Меню</value>
+  </data>
+  <data name="MessageNotEnough" xml:space="preserve">
+    <value>В указанном файле недостаточно чисел для построения таблицы судоку</value>
+  </data>
+  <data name="ResetField" xml:space="preserve">
+    <value>Сбросить таблицу</value>
+  </data>
+  <data name="ClearSolution" xml:space="preserve">
+    <value>Отменить решение</value>
+  </data>
+  <data name="ResetWarning" xml:space="preserve">
+    <value>Очистить все значения во всех ячейках?</value>
+  </data>
+  <data name="SaveToFile" xml:space="preserve">
+    <value>Сохранить в файл</value>
+  </data>
+  <data name="ShareButton" xml:space="preserve">
+    <value>Поделиться</value>
+  </data>
+  <data name="SolutionIsCorrect" xml:space="preserve">
+    <value>Решение корректно, так держать!</value>
+  </data>
+  <data name="SolutionIsCorrectNoScore" xml:space="preserve">
+    <value>Решение корректно, но Ваши очки были потеряны, потому что Вы изменили сгенерированную таблицу.
+
+Сгенерируйте новую таблицу, чтобы продолжить игру</value>
+  </data>
+  <data name="SolutionIsIncorrect" xml:space="preserve">
+    <value>В решении содержатся ошибки</value>
+  </data>
+  <data name="SolutionPage" xml:space="preserve">
+    <value>Решение судоку</value>
+  </data>
+  <data name="SolutionTip" xml:space="preserve">
+    <value>Решение выполняется...</value>
+  </data>
+  <data name="SolveButton" xml:space="preserve">
+    <value>Решить</value>
+  </data>
+  <data name="SolvedText" xml:space="preserve">
+    <value>Задача решена!</value>
+  </data>
+  <data name="StatsButton" xml:space="preserve">
+    <value>Статистика игры</value>
+  </data>
+  <data name="StatsText" xml:space="preserve">
+    <value>Результаты игры</value>
+  </data>
+  <data name="WelcomeTip" xml:space="preserve">
+    <value>Добро пожаловать в SudokuArray – инструмент решения судоку!
+
+В этом приложении Вы можете решать классические (9 x 9) судоку как вручную, так и автоматически. Игровой режим позволяет накапливать выигрыш и делиться результатами. Обычный режим – простой калькулятор, отображающий решение для указанной таблицы.
+
+Ознакомиться с управлением и подробными сведениями можно в разделе Меню &gt; О приложении</value>
+  </data>
+  <data name="GameModeLabel" xml:space="preserve">
+    <value>Адаптировать интерфейс под игровой режим</value>
+  </data>
+  <data name="GameModeTip" xml:space="preserve">
+    <value>Когда игровой режим активен, приложение ведёт учёт выигрышей и добавляет нужные кнопки на главный экран. Кроме того, блокируется изменение ячеек, заполненных приложением в начале новой игры. В обычном режиме приложение работает только как калькулятор решений</value>
+  </data>
+  <data name="KeepScreenOnLabel" xml:space="preserve">
+    <value>Запрет спящего режима</value>
+  </data>
+  <data name="KeepScreenOnTip" xml:space="preserve">
+    <value>Приложение не позволит устройству перейти в спящий режим, когда оно активно</value>
+  </data>
+  <data name="SettingsPage" xml:space="preserve">
+    <value>Настройки приложения</value>
+  </data>
+  <data name="ReplaceBalloonsLabel" xml:space="preserve">
+    <value>Заменить «облачки» сообщениями</value>
+  </data>
+  <data name="ReplaceBalloonsTip" xml:space="preserve">
+    <value>На некоторых устройствах многострочные «облачки» (прямоугольные короткие текстовые сообщения) не поддерживаются должным образом. Включите эту опцию, чтобы заменить их обычными сообщениями о решении и результатах проверки, если это необходимо</value>
+  </data>
+  <data name="LanguageTip" xml:space="preserve">
+    <value>Настройка задаёт язык интерфейса и текстовых сообщений</value>
+  </data>
+  <data name="FontSizeTip" xml:space="preserve">
+    <value>Настройка задаёт размер элементов и текстовых подписей в интерфейсе приложения</value>
+  </data>
+  <data name="ColorSchemeTip" xml:space="preserve">
+    <value>Опция позволяет выбрать цветовую схему для поля судоку</value>
+  </data>
+  <data name="CellsAppearanceTip" xml:space="preserve">
+    <value>Опция позволяет выбрать представление для значений в поле судоку</value>
+  </data>
+  <data name="HighlightAffectedLabel" xml:space="preserve">
+    <value>Подсветка затронутых ячеек</value>
+  </data>
+  <data name="HighlightAffectedTip" xml:space="preserve">
+    <value>Опция позволяет подсвечивать ячейки, затронутые выделенной (в строке, столбце и квадрате)</value>
+  </data>
+  <data name="HelpQRTip" xml:space="preserve">
+    <value>Для доступа к помощи, поддержке и справочным материалам воспользуйтесь QR-кодом, представленным ниже.
+
+Далее на этой странице доступно сокращённое описание приложения</value>
+  </data>
+  <data name="Highlight0" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="Highlight1" xml:space="preserve">
+    <value>Только линии</value>
+  </data>
+  <data name="Highlight2" xml:space="preserve">
+    <value>Линии и квадраты</value>
+  </data>
+  <data name="AppModeMessage" xml:space="preserve">
+    <value>Игровой режим активен: {1:S}
+
+Текущая сложность: {0:S}
+
+Приложение ведёт учёт выигрышей: {1:S}
+
+Изменение сгенерированных ячеек недоступно: {1:S}</value>
+  </data>
+  <data name="Menu3" xml:space="preserve">
+    <value>Инфо</value>
+  </data>
+  <data name="StateButton" xml:space="preserve">
+    <value>Состояние программы</value>
+  </data>
+  <data name="ScoresExchangeSave" xml:space="preserve">
+    <value>Экспорт результатов игры</value>
+  </data>
+  <data name="ScoresExchangeLoad" xml:space="preserve">
+    <value>Импорт результатов игры</value>
+  </data>
+  <data name="ScoresExchangeError" xml:space="preserve">
+    <value>Файл не содержит результатов игры SudokuArray</value>
+  </data>
+  <data name="ExchangeButton" xml:space="preserve">
+    <value>Перенос выигрышей</value>
+  </data>
+  <data name="GameIsNotCompletedMessage" xml:space="preserve">
+    <value>Текущая игра не завершена.
+
+Вы всё равно хотите начать новую игру?</value>
+  </data>
+  <data name="ShowFreeDigitsLabel" xml:space="preserve">
+    <value>Показывать доступные цифры</value>
+  </data>
+  <data name="ShowFreeDigitsTip" xml:space="preserve">
+    <value>Опция включает отображение цифр, доступных для подстановки в текущую выбранную ячейку</value>
+  </data>
+  <data name="ResultsPage" xml:space="preserve">
+    <value>Результаты игры</value>
+  </data>
+  <data name="ShowStatsOnWinLabel" xml:space="preserve">
+    <value>Отображать игровую статистику при победе</value>
+  </data>
+  <data name="ShowStatsOnWinTip" xml:space="preserve">
+    <value>Опция включает переход в раздел статистики при победе в текущей игре</value>
+  </data>
+</root>

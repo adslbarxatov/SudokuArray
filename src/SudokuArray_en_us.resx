@@ -1,0 +1,275 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="DoingSearch" xml:space="preserve">
+    <value>Searching for solution...</value>
+  </data>
+  <data name="MActivities_MCheck" xml:space="preserve">
+    <value>Chec&amp;k solution</value>
+  </data>
+  <data name="MActivities_MClear" xml:space="preserve">
+    <value>&amp;Cancel the solution</value>
+  </data>
+  <data name="MActivities_MGenerate" xml:space="preserve">
+    <value>&amp;New game</value>
+  </data>
+  <data name="MInfo_MHelp" xml:space="preserve">
+    <value>&amp;Help</value>
+  </data>
+  <data name="MSettings_MLanguage" xml:space="preserve">
+    <value>La&amp;nguage</value>
+  </data>
+  <data name="MActivities_MLoad" xml:space="preserve">
+    <value>&amp;Load from file...</value>
+  </data>
+  <data name="MActivities_MReset" xml:space="preserve">
+    <value>&amp;Reset the table</value>
+  </data>
+  <data name="MActivities_MSave" xml:space="preserve">
+    <value>&amp;Save to file...</value>
+  </data>
+  <data name="MActivities_MSolve" xml:space="preserve">
+    <value>&amp;Find solution</value>
+  </data>
+  <data name="MActivities" xml:space="preserve">
+    <value>&amp;Actions</value>
+  </data>
+  <data name="MessageNotEnough" xml:space="preserve">
+    <value>There is not enough numbers in the specified file to build the sudoku table</value>
+  </data>
+  <data name="MGenerate_MDifficulty0" xml:space="preserve">
+    <value>&amp;Easy</value>
+  </data>
+  <data name="MGenerate_MDifficulty1" xml:space="preserve">
+    <value>&amp;Medium</value>
+  </data>
+  <data name="MGenerate_MDifficulty2" xml:space="preserve">
+    <value>&amp;Hard</value>
+  </data>
+  <data name="OFFilter" xml:space="preserve">
+    <value>Text documents (*.txt, *.csv)|*.txt;*.csv</value>
+  </data>
+  <data name="OFName" xml:space="preserve">
+    <value>Select a text file with sudoku table</value>
+  </data>
+  <data name="ResetWarning" xml:space="preserve">
+    <value>Reset all values in all cells?</value>
+  </data>
+  <data name="SFName" xml:space="preserve">
+    <value>Specify a name for a new file</value>
+  </data>
+  <data name="SolutionIsCorrect" xml:space="preserve">
+    <value>Solution is correct, keep going!</value>
+  </data>
+  <data name="SolutionIsIncorrect" xml:space="preserve">
+    <value>This solution contains mistakes</value>
+  </data>
+  <data name="MSettings" xml:space="preserve">
+    <value>&amp;Settings</value>
+  </data>
+  <data name="MInfo" xml:space="preserve">
+    <value>&amp;Info</value>
+  </data>
+  <data name="ColorSchemeLabel" xml:space="preserve">
+    <value>Color scheme:</value>
+  </data>
+  <data name="CellsAppearanceLabel" xml:space="preserve">
+    <value>Cells appearance:</value>
+  </data>
+  <data name="MInfo_MStats" xml:space="preserve">
+    <value>&amp;Game statistics</value>
+  </data>
+  <data name="SolvedText" xml:space="preserve">
+    <value>Solved!</value>
+  </data>
+  <data name="StatsText" xml:space="preserve">
+    <value>Game results</value>
+  </data>
+  <data name="NewGameButton" xml:space="preserve">
+    <value>New game</value>
+  </data>
+  <data name="CheckButton" xml:space="preserve">
+    <value>Check</value>
+  </data>
+  <data name="ClearButton" xml:space="preserve">
+    <value>Return</value>
+  </data>
+  <data name="AppModeMessage" xml:space="preserve">
+    <value>Game mode is active: {1:S}
+
+Current difficulty: {0:S}
+
+The app is tracking wins: {1:S}
+
+Changing generated cells is not possible: {1:S}</value>
+  </data>
+  <data name="AppModeFlag" xml:space="preserve">
+    <value>Adjust the interface for game mode</value>
+  </data>
+  <data name="DifficultyMessage" xml:space="preserve">
+    <value>Select the difficulty level</value>
+  </data>
+  <data name="HighlightLabel" xml:space="preserve">
+    <value>Highlighting of affected cells:</value>
+  </data>
+  <data name="MHighlight0" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="MHighlight1" xml:space="preserve">
+    <value>Lines only</value>
+  </data>
+  <data name="MHighlight2" xml:space="preserve">
+    <value>Lines and squares</value>
+  </data>
+  <data name="MSettings_MParameters" xml:space="preserve">
+    <value>&amp;Parameters</value>
+  </data>
+  <data name="MInfo_MState" xml:space="preserve">
+    <value>App s&amp;tatus</value>
+  </data>
+  <data name="ScoresExchangeError" xml:space="preserve">
+    <value>The file doesn’t contain SudokuArray game results</value>
+  </data>
+  <data name="MSettings_MLoadProfile" xml:space="preserve">
+    <value>Import player results</value>
+  </data>
+  <data name="GameIsNotCompletedMessage" xml:space="preserve">
+    <value>Current game is not completed.
+
+Do you want to start new game anyway?</value>
+  </data>
+  <data name="ShowFreeDigitsFlag" xml:space="preserve">
+    <value>Show available digits for the current cell</value>
+  </data>
+  <data name="ShowStatsOnWinFlag" xml:space="preserve">
+    <value>Display game statistics when winning</value>
+  </data>
+  <data name="sapfile" xml:space="preserve">
+    <value>SudokuArray game results</value>
+  </data>
+  <data name="MSettings_MSaveProfile" xml:space="preserve">
+    <value>Export player results</value>
+  </data>
+  <data name="OFPFilter" xml:space="preserve">
+    <value>SudokuArray game results (*.sap)|*.sap</value>
+  </data>
+  <data name="OFPName" xml:space="preserve">
+    <value>Select a game results file</value>
+  </data>
+</root>
