@@ -3,8 +3,9 @@ SudokuArray: changes log
 Version 6.0:
 • Project has been renamed to SudokuArray;
 • Implemented the exchange file format that can be used to store game results or move them
-  betweed devices;
-• Adjusted the color scheme
+  between devices;
+• Adjusted the color scheme;
+• Added the achievement “in one move”
 
 Version 5.6.6:
 • Android: the list of permissions and the checking method have been adjusted;
