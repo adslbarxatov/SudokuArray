@@ -59,8 +59,7 @@ namespace RD_AAOW
 		private StackLayout numbersField = [];
 		private StackLayout inputField = [];
 
-		private Switch gameModeSwitch, keepScreenOnSwitch, /*replaceBalloonsSwitch,*/ showFreeDigitsSwitch,
-			showStatsOnWinSwitch;
+		private Switch gameModeSwitch, keepScreenOnSwitch, showFreeDigitsSwitch, showStatsOnWinSwitch;
 
 		#endregion
 
@@ -285,7 +284,6 @@ namespace RD_AAOW
 
 			gameModeSwitch = RDInterface.ApplySwitchSettings (settingsPage, "GameModeSwitch", false,
 				settingsFieldBackColor, GameModeSwitch_Toggled, SudokuArrayMath.AppModeIsGame);
-			/*settingsFieldBackColor, GameModeSwitch_Toggled, SudokuArrayMath.AppMode == AppModes.Game);*/
 			RDInterface.ApplyLabelSettings (settingsPage, "GameModeLabel", RDLocale.GetText ("GameModeLabel"),
 				RDLabelTypes.DefaultLeft);
 			RDInterface.ApplyLabelSettings (settingsPage, "GameModeTip", RDLocale.GetText ("GameModeTip"),
@@ -534,7 +532,6 @@ namespace RD_AAOW
 				menuVariants.Add ([]);
 				menuVariants[0].Add ("🔢\t " + RDLocale.GetText ("Menu0"));
 				menuVariants[0].Add ("🕹\t " + RDLocale.GetText ("Menu1"));
-				/*menuVariants[0].Add ("ℹ️\t " + RDLocale.GetText ("Menu3"));*/
 				menuVariants[0].Add ("📊\t " + RDLocale.GetText ("StatsButton"));
 				menuVariants[0].Add ("⚙️\t " + RDLocale.GetText ("Menu2"));
 				menuVariants[0].Add ("ℹ️\t " + RDLocale.GetDefaultText (RDLDefaultTexts.Control_AppAbout));
@@ -549,11 +546,6 @@ namespace RD_AAOW
 				menuVariants[2].Add ("✨\t " + RDLocale.GetText ("GenerateMatrix"));
 				menuVariants[2].Add ("☑️\t " + RDLocale.GetText ("CheckSolutionButton"));
 				menuVariants[2].Add ("↩️\t " + RDLocale.GetText ("ClearSolution"));
-
-				/*menuVariants.Add ([]);
-				menuVariants[2].Add ("📊\t " + RDLocale.GetText ("StatsButton"));
-				menuVariants[2].Add ("🔀\t " + RDLocale.GetText ("ExchangeButton"));
-				menuVariants[2].Add ("ℹ️\t " + RDLocale.GetDefaultText (RDLDefaultTexts.Control_AppAbout));*/
 				}
 			List<List<int>> indirectMenu = [
 				[0, 1],
@@ -590,7 +582,6 @@ namespace RD_AAOW
 				// Выполнить решение
 				case 10:
 					if (!await FindSolution (true))
-						/*await ShowRBControlledMessage ([SudokuArrayMath.FailurePrefix + RDLocale.GetText ("SolutionIsIncorrect")]);*/
 						await ShowMessage (SudokuArrayMath.FailurePrefix + RDLocale.GetText ("SolutionIsIncorrect"));
 					break;
 
@@ -633,18 +624,11 @@ namespace RD_AAOW
 					break;
 
 				// Статистика игры
-				/*case 30:*/
 				case 2:
 					ShowScore (false);
 					break;
 
-				/*// Перенос выигрышей
-				case 31:
-					await ExchangeScores ();
-					break;*/
-
 				// О приложении
-				/*case 32:*/
 				case 4:
 					RDInterface.SetCurrentPage (aboutPage, aboutMasterBackColor);
 					break;
@@ -657,11 +641,9 @@ namespace RD_AAOW
 			uint score = SudokuArrayMath.GetScore (ScoreTypes.Penalty);
 			SudokuArrayMath.UpdateGameScore (true, score);
 
-			/*string text = SudokuArrayMath.FailurePrefix + RDLocale.GetText ("SolutionIsIncorrect");*/
 			List<string> text = [SudokuArrayMath.FailurePrefix + RDLocale.GetText ("SolutionIsIncorrect")];
 
 			if (SudokuArrayMath.GameMode != MatrixDifficulty.None)
-				/*text += (RDLocale.RNRN + "–" + score.ToString () + SudokuArrayMath.ScoreChar);*/
 				text.Add ("–" + score.ToString () + SudokuArrayMath.ScoreChar);
 
 			return await ShowMessage (text);
@@ -907,7 +889,7 @@ namespace RD_AAOW
 
 					// Отображение сведений о достижениях (обязательно до обновления очков)
 					string achiLine = "";
-					for (StoredFields i = StoredFields.Achi_OneOrLess_Easy; i <= StoredFields.Achi_NoMistakes_Hard; i++)
+					for (StoredFields i = StoredFields.Achi_OneOrLess_Easy; i <= StoredFields.Achi_OneMove_Hard; i++)
 						{
 						if (!win)
 							break;
@@ -931,15 +913,6 @@ namespace RD_AAOW
 					SudokuArrayMath.UpdateGameScore (false, score);
 
 					// Отображение результата и отключение игрового режима до следующей генерации
-					/*string msgText = "";
-					if (win && !SudokuArrayMath.ShowStatsOnWinFlag)
-						msgText += (RDLocale.GetText ("SolvedText") + RDLocale.RNRN);
-
-					msgText += (SudokuArrayMath.SuccessPrefix + RDLocale.GetText ("SolutionIsCorrect") + RDLocale.RNRN +
-						"+" + score.ToString () + SudokuArrayMath.ScoreChar);
-					if (!string.IsNullOrWhiteSpace (achiLine))
-						msgText += "\t\t+" + achiLine;
-					await ShowRBControlledMessage (msgText);*/
 					List<string> msgText = [];
 					if (win && !SudokuArrayMath.ShowStatsOnWinFlag)
 						msgText.Add (RDLocale.GetText ("SolvedText"));
@@ -1170,10 +1143,8 @@ namespace RD_AAOW
 			{
 			if (sender != null)
 				SudokuArrayMath.AppModeIsGame = gameModeSwitch.IsToggled;
-			/*SudokuArrayMath.AppMode = (gameModeSwitch.IsToggled ? AppModes.Game : AppModes.SolutionOnly);*/
 
 			// Настройка
-			/*bool game = (SudokuArrayMath.AppMode == AppModes.Game);*/
 			bool game = SudokuArrayMath.AppModeIsGame;
 
 			generateButton.IsVisible = checkButton.IsVisible = freeDigitsTipButton.IsVisible = game;
@@ -1216,7 +1187,6 @@ namespace RD_AAOW
 				if (res < 0)
 					return;
 
-				/*SudokuArrayMath.ColorScheme = (ColorSchemes)res;*/
 				SudokuArrayMath.ColorScheme = (uint)res;
 				}
 			else
@@ -1282,7 +1252,6 @@ namespace RD_AAOW
 
 				// Подготовка к настройке для неначального вызова
 				FlushMatrix ();
-				/*SudokuArrayMath.CellsAppearance = (CellsAppearances)res;*/
 				SudokuArrayMath.CellsAppearance = (uint)res;
 				}
 			else
@@ -1377,36 +1346,6 @@ namespace RD_AAOW
 			if (sender != null)
 				ColorSchemeButton_Clicked (null, null);
 			}
-
-		/*// Перенос выигрышей
-		private async Task<bool> ExchangeScores ()
-			{
-			if (scoresExchangeVariants.Count < 1)
-				{
-				scoresExchangeVariants.Add (RDLocale.GetText ("ScoresExchangeCopy"));
-				scoresExchangeVariants.Add (RDLocale.GetText ("ScoresExchangeLoad"));
-				}
-
-			int res = await RDInterface.ShowList (RDLocale.GetText ("ScoresExchangeMessage"),
-				RDLocale.GetDefaultText (RDLDefaultTexts.Button_Cancel),
-				scoresExchangeVariants);
-
-			switch (res)
-				{
-				case 0:
-					RDGenerics.SendToClipboard (SudokuArrayMath.GetPortableScoresLine (), true);
-					break;
-
-				case 1:
-					if (SudokuArrayMath.SetPortableScoresLine (await RDGenerics.GetFromClipboard ()))
-						ShowScore (false);
-					else
-						RDInterface.ShowBalloon (RDLocale.GetText ("ScoresExchangeError"), true);
-					break;
-				}
-
-			return true;
-			}*/
 
 		// Отображение подсказки к доступным цифрам
 		private void FreeDigitsTip_Click (object sender, EventArgs e)

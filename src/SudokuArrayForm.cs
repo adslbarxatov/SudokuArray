@@ -168,12 +168,7 @@ namespace RD_AAOW
 			RDLocale.SetDefaultControlText (MExit, RDLDefaultTexts.Button_Exit);
 
 			// Диалоги
-			OFDialog.Title = RDLocale.GetText ("OFName");
-			SFDialog.Title = RDLocale.GetText ("SFName");
 			OFDialog.Filter = SFDialog.Filter = RDLocale.GetText ("OFFilter");
-
-			OFPDialog.Title = RDLocale.GetText ("OFPName");
-			SFPDialog.Title = RDLocale.GetText ("SFName");
 			OFPDialog.Filter = SFPDialog.Filter = RDLocale.GetText ("OFPFilter");
 
 			// Вспомогательные кнопки
@@ -748,7 +743,6 @@ namespace RD_AAOW
 			string line = SudokuArrayMath.SudokuField;
 
 			// Адаптация к игровому режиму
-			/*bool game = (SudokuArrayMath.AppMode == AppModes.Game);*/
 			bool game = SudokuArrayMath.AppModeIsGame;
 
 			this.ClientSize = new Size ((int)(SudokuArrayMath.SideSize + 2) * buttonSize,
@@ -792,23 +786,6 @@ namespace RD_AAOW
 		// Перенос выигрышей
 		private void MLoadProfile_Click (object sender, EventArgs e)
 			{
-			/*RDMessageButtons res = RDInterface.LocalizedMessageBox (RDMessageFlags.Question | RDMessageFlags.LeftText,
-				"ScoresExchangeMessage", RDLDefaultTexts.Button_Copy, RDLDefaultTexts.Button_Load, RDLDefaultTexts.Button_Cancel);
-
-			switch (res)
-				{
-				case RDMessageButtons.ButtonOne:
-					RDGenerics.SendToClipboard (SudokuArrayMath.GetPortableScoresLine (), true);
-					break;
-
-				case RDMessageButtons.ButtonTwo:
-					if (SudokuArrayMath.SetPortableScoresLine (RDGenerics.GetFromClipboard ()))
-						MStats_Click (sender, null);
-					else
-						RDInterface.LocalizedMessageBox (RDMessageFlags.Error | RDMessageFlags.CenterText,
-							"ScoresExchangeError", 1000);
-					break;
-				}*/
 			OFPDialog.ShowDialog ();
 			}
 

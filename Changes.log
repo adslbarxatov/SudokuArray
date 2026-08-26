@@ -1,5 +1,8 @@
 SudokuArray: changes log
 
+Version 6.0.1:
+• Videoguide has been updated
+
 Version 6.0:
 • Project has been renamed to SudokuArray;
 • Implemented the exchange file format that can be used to store game results or move them

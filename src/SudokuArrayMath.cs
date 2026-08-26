@@ -6,7 +6,7 @@ using System.IO;
 	using Microsoft.Maui.Controls;
 	using Microsoft.Maui.Graphics;
 #else
-using System.ComponentModel;
+	using System.ComponentModel;
 	using System.Drawing;
 	using System.Windows.Forms;
 #endif
@@ -197,113 +197,6 @@ namespace RD_AAOW
 		/// </summary>
 		GameCompletion
 		}
-
-	/*/// <summary>
-	/// Возможные варианты представления значений ячеек
-	/// </summary>
-	public enum CellsAppearances
-		{
-		/// <summary>
-		/// Цифры
-		/// </summary>
-		Digits,
-
-		/// <summary>
-		/// Латинские строчные буквы
-		/// </summary>
-		LatinLowercase,
-
-		/// <summary>
-		/// Кириллические строчные буквы
-		/// </summary>
-		CyrillicLowercase,
-
-		/// <summary>
-		/// Греческие строчные буквы
-		/// </summary>
-		GreekLowercase,
-
-		/// <summary>
-		/// Римские цифры
-		/// </summary>
-		RomanNumerals,
-
-		if ANDROID
-
-		/// <summary>
-		/// Точки
-		/// </summary>
-		Dots,
-
-		/// <summary>
-		/// Радуга
-		/// </summary>
-		Rainbow,
-
-		/// <summary>
-		/// Еда
-		/// </summary>
-		Food,
-
-		endif
-		};*/
-
-	/*/// <summary>
-	/// Возможные режимы работы программы
-	/// </summary>
-	public enum AppModes
-		{
-		/// <summary>
-		/// Только решение
-		/// </summary>
-		SolutionOnly,
-
-		/// <summary>
-		/// Игра
-		/// </summary>
-		Game
-		}*/
-
-	/*/// <summary>
-	/// Возможные цветовые схемы приложения
-	/// </summary>
-	public enum ColorSchemes
-		{
-		/// <summary>
-		/// Светлая серая
-		/// </summary>
-		LightGrey,
-
-		/// <summary>
-		/// Светлая жёлтая
-		/// </summary>
-		LightYellow,
-
-		/// <summary>
-		/// Светлая зелёная
-		/// </summary>
-		LightGreen,
-
-		/// <summary>
-		/// Светлая розовая
-		/// </summary>
-		LightPink,
-
-		/// <summary>
-		/// Светлая голубая
-		/// </summary>
-		LightBlue,
-
-		/// <summary>
-		/// Тёмная серая
-		/// </summary>
-		DarkGrey,
-
-		/// <summary>
-		/// Тёмная фиолетовая
-		/// </summary>
-		DarkPurple,
-		}*/
 
 	/// <summary>
 	/// Варианты подсветки затронутых ячеек
@@ -513,14 +406,9 @@ namespace RD_AAOW
 		private const uint gameScore_TimeLimit = 60 * 60 * 24 * 7;
 
 		// Имена ключей, используемые для хранения настроек
-		/*if ANDROID
-		private const string replaceBalloonsPar = "ReplaceBalloons";
-		endif*/
-
 		private const string appModePar = "AppMode";
 		private const string sudokuFieldUPar = "SudokuFieldU";
 		private const string gameModePar = "GameMode";
-		/*private const string gameScoreUPar = "GameScoreU";*/
 		private const string colorSchemePar = "ColorScheme";
 		private const string cellsAppearancePar = "CellsAppearance";
 		private const string gameStartDatePar = "GameStartDate";
@@ -581,9 +469,6 @@ namespace RD_AAOW
 
 		// Поля, обеспечивающие разбор сохранённой статистики игры
 		private static uint[] gameScore;
-
-		/*// Разделитель полей в строке хранения выигрышей
-		private static char[] gameScoreSplitter = ['\t'];*/
 
 #if !ANDROID
 
@@ -837,16 +722,15 @@ namespace RD_AAOW
 		/// <summary>
 		/// Возвращает или задаёт режим работы приложения
 		/// </summary>
-		public static /*AppModes AppMode*/ bool AppModeIsGame
+		public static bool AppModeIsGame
 			{
 			get
 				{
-				/*return (AppModes)RDGenerics.GetSettings (appModePar, (uint)AppModes.Game);*/
 				return RDGenerics.GetSettings (appModePar, true);
 				}
 			set
 				{
-				RDGenerics.SetSettings (appModePar, /*(uint)*/value);
+				RDGenerics.SetSettings (appModePar, value);
 				}
 			}
 
@@ -885,14 +769,14 @@ namespace RD_AAOW
 		/// Возвращает или задаёт номер цветовой схемы приложения
 		/// в соответствии со списком имён цветовых схем
 		/// </summary>
-		public static /*ColorSchemes*/ uint ColorScheme
+		public static uint ColorScheme
 			{
 			get
 				{
-				colorIndex = (int)RDGenerics.GetSettings (colorSchemePar, 1 /*(uint)ColorSchemes.LightYellow*/);
+				colorIndex = (int)RDGenerics.GetSettings (colorSchemePar, 1);	// Светло-жёлтый
 				if (colorIndex > colorsNames.Length)
 					colorIndex = 0;
-				return /*(ColorSchemes)*/(uint)colorIndex;
+				return (uint)colorIndex;
 				}
 			set
 				{
@@ -905,14 +789,14 @@ namespace RD_AAOW
 		/// Возвращает или задаёт номер представления значений в ячейках
 		/// в соответствии со списком имён представлений
 		/// </summary>
-		public static /*CellsAppearances*/ uint CellsAppearance
+		public static uint CellsAppearance
 			{
 			get
 				{
-				cellsAppIndex = (int)RDGenerics.GetSettings (cellsAppearancePar, 0 /*(uint)CellsAppearances.Digits*/);
+				cellsAppIndex = (int)RDGenerics.GetSettings (cellsAppearancePar, 0);	// Цифры
 				if (cellsAppIndex >= cellsApps.Count)
 					cellsAppIndex = 0;
-				return /*(CellsAppearances)*/(uint)cellsAppIndex;
+				return (uint)cellsAppIndex;
 				}
 			set
 				{
@@ -1524,17 +1408,11 @@ namespace RD_AAOW
 				bool scoresV6 = !string.IsNullOrWhiteSpace (RDGenerics.GetSettings (SFName (0), ""));
 				List<string> valuesNew = [];
 
-				/*if (!string.IsNullOrWhiteSpace (line))*/
 				if (!scoresV6)
 					{
 					// Старая схема
-					string line = RDGenerics.GetSettings (/*gameScoreUPar*/ "GameScoreU", "");
+					string line = RDGenerics.GetSettings ("GameScoreU", "");
 					line = DecodeLine (line);
-
-					/*string[] values = line.Split (['\t'], StringSplitOptions.RemoveEmptyEntries);
-					if (values.Length < 4)
-					// Строка повреждена или незаполнена – немедленный возврат значения по умолчанию
-					return gameScore[(int)Item];*/
 					valuesNew.AddRange (line.Split (['\t'], StringSplitOptions.RemoveEmptyEntries));
 
 					// Пересохранение
@@ -1566,25 +1444,10 @@ namespace RD_AAOW
 					uint v;
 					try
 						{
-						/*gameScore[i] = uint.Parse (valuesNew[i]);*/
 						v = uint.Parse (valuesNew[i]);
 						}
 					catch
 						{
-						/*switch ((StoredFields)i)
-							{
-							case StoredFields.TimeEasy:
-							case StoredFields.TimeMedium:
-							case StoredFields.TimeHard:
-								// Чем меньше, тем лучше
-								gameScore[i] = uint.MaxValue;
-								break;
-
-							default:
-								// Наоборот
-								gameScore[i] = 0;
-								break;
-							}*/
 						continue;
 						}
 
@@ -1600,17 +1463,7 @@ namespace RD_AAOW
 		private static void SetGameScore (StoredFields Item, uint Value)
 			{
 			int idx = (int)Item;
-
 			gameScore[idx] = Value;
-			/*string line = "";
-			string sp = gameScoreSplitter[0].ToString ();
-
-			for (int i = 0; i < gameScore.Length - 1; i++)
-				line += (gameScore[i].ToString () + sp);
-			line += gameScore[gameScore.Length - 1].ToString ();
-
-			line = EncodeLine (line);
-			RDGenerics.SetSettings (gameScoreUPar, line);*/
 
 			string sf = SFName (idx);
 			RDGenerics.SetSettings (sf, EncodeLine (sf + Value.ToString ()));
@@ -2338,29 +2191,6 @@ namespace RD_AAOW
 				return line.Substring (5);
 			return "";
 			}
-
-		/*/// <summary>
-		/// Метод возвращает строку, пригодную для обмена сохранёнными выигрышами
-		/// и достижениями между клиентами
-		/// </summary>
-		public static string GetPortableScoresLine ()
-			{
-			return RDGenerics.GetSettings (gameScoreUPar, "");
-			}
-
-		/// <summary>
-		/// Метод загружает строку, пригодную для обмена сохранёнными выигрышами
-		/// и достижениями между клиентами
-		/// </summary>
-		public static bool SetPortableScoresLine (string ScoresLine)
-			{
-			if (string.IsNullOrWhiteSpace (DecodeLine (ScoresLine)))
-				return false;
-
-			RDGenerics.SetSettings (gameScoreUPar, ScoresLine);
-			gameScore = null;
-			return true;
-			}*/
 
 		/// <summary>
 		/// Метод формирует файл профиля пользователя для сохранения
