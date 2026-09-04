@@ -1,6 +1,6 @@
 _en_us_
 
-- `Android`: enabled the code trimmer and R8 optimization tools (APK size has been reduced by 70%);
+- `Android`: enabled the code trimmer and R8 optimization tools (APK size has been reduced by 70%); 
 - The videoguide has been updated;
 - Project has been renamed to `SudokuArray`;
 - Implemented the exchange file format that can be used to store game results or move them betweed devices
