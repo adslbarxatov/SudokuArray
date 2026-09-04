@@ -1,5 +1,8 @@
 SudokuArray: changes log
 
+Version 6.0.2:
+• Android: enabled the code trimmer and R8 optimization tools (APK size has been reduced by 70%)
+
 Version 6.0.1:
 • Videoguide has been updated
 

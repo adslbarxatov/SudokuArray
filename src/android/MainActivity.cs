@@ -1,18 +1,18 @@
 ﻿using Android.App;
 using Android.Content;
-using Android.Content.PM;
 using Android.OS;
 using Android.Views;
 using Microsoft.Maui;
 
 namespace RD_AAOW
 	{
-	[Activity (Label = "SudokuArray",
+	/*[Activity (Label = "SudokuArray",
 		Icon = "@drawable/icon",
 		Theme = "@style/SplashTheme",
 		MainLauncher = true,
 		Name = "com.RD_AAOW.MainActivity",
-		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]*/
+	[Activity (Name = "RD_AAOW.MainActivity")]
 	public class MainActivity: MauiAppCompatActivity
 		{
 		/// <summary>
