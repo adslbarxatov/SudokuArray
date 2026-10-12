@@ -6,12 +6,6 @@ using Microsoft.Maui;
 
 namespace RD_AAOW
 	{
-	/*[Activity (Label = "SudokuArray",
-		Icon = "@drawable/icon",
-		Theme = "@style/SplashTheme",
-		MainLauncher = true,
-		Name = "com.RD_AAOW.MainActivity",
-		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]*/
 	[Activity (Name = "RD_AAOW.MainActivity")]
 	public class MainActivity: MauiAppCompatActivity
 		{

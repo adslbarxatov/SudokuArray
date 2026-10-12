@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.RD_AAOW.SudokuSolver"
-	android:installLocation="internalOnly" android:versionCode="600604" android:versionName="6.0.2">
+	android:installLocation="internalOnly" android:versionCode="600606" android:versionName="6.0.3">
 
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="36" />
 
@@ -15,7 +15,7 @@
 	<application android:label="SudokuArray" android:icon="@drawable/icon"
 		android:banner="@drawable/banner">
 
-		<activity android:name="com.RD_AAOW.MainActivity" android:label="SudokuArray"
+		<activity android:name="RD_AAOW.MainActivity" android:label="SudokuArray"
 			android:theme="@style/SplashTheme" android:icon="@drawable/icon"
 			android:exported="true" android:configChanges="screenSize|orientation">
 
