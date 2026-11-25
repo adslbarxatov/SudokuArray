@@ -1,15 +1,13 @@
 _en_us_
 
-- Internal assemblies have been updated;
-- `Android`: enabled the code trimmer and `R8` optimization tools (APK size has been reduced by 70%);
-- The videoguide has been updated
+- `Android`: the app targets `API 37` / `.NET 11` now;
+- Internal assemblies have been updated
 
 ⁂
 
 _ru_ru_
 
-- Обновлены внутренние сборки приложения;
-- `Android`: включены инструменты оптимизации кода и `R8` (размер APK-файла уменьшен на 70%);
-- Обновлёна видеоинструкция проекта
+- `Android`: приложение перенацелено на `API 37` / `.NET 11`;
+- Обновлены внутренние сборки приложения
 
 ⁂

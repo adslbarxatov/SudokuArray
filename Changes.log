@@ -1,6 +1,7 @@
 SudokuArray: changes log
 
-Version 6.0.3:
+Version 6.0.4:
+• Android: the app targets API 37 / .NET 11 now;
 • Internal assemblies have been updated
 
 Version 6.0.2:
